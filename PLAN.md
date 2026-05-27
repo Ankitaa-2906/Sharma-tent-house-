@@ -154,9 +154,12 @@ This stores information about returned items.
 This section helps calculate late fees, missing item charges, and damage deductions from the deposit. 
 
 ### 3. How your groupings connect to each other.
-Customers are connected to bookings because every booking belongs to one customer.
 
-Bookings are connected to inventory items because one booking can contain many different rental items like chairs, tables, fans, and decoration items. The system will reduce available quantity when items are booked and increase it again after return.
+Bookings are connected to inventory items because one booking can contain many different rental items like chairs, tables, fans, and decoration items.
+Inventory availability is checked using booking date ranges instead of permanently reducing stock quantities. When a new booking request is made, the system compares its dispatch_date and expected_return_date against existing bookings for the same item.
+For example, if 200 out of 500 chairs are booked for a wedding from 17 Dec to 20 Dec, those chairs are considered unavailable only during that time window. The same chairs can still be booked for another event next month because the booking periods do not overlap.
+
+Customers are connected to bookings because every booking belongs to one customer.
 
 Payments are connected to bookings because each booking can have deposit payments, balance payments, or extra charges for damages.
 
