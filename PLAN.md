@@ -69,10 +69,16 @@ This stores all booking information for events.
 - 
 - event_address - string - required
 - 
-- start_date - string - required
-- 
-- end_date - string - required
-- 
+- event_start_date - date (YYYY-MM-DD) - required
+
+- event_end_date - date (YYYY-MM-DD) - required
+  
+- dispatch_date - date (YYYY-MM-DD) - required
+  
+- expected_return_date - date (YYYY-MM-DD) - required
+  
+- actual_return_date - date (YYYY-MM-DD) - optional
+ 
 - booking_status - string - required
 - 
 - deposit_amount - float - required
