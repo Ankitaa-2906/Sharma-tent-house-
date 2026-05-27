@@ -197,6 +197,69 @@ The program will use separate JSON files instead of one large file. This will ma
    
 ]
 
+### Example Connected Records
+
+{
+  "customers": [
+{
+    "customer_id": "C101",
+    
+      "name": "Vikas Agarwal",
+      
+      "phone": "9876543210",
+      
+      "address": "Talwandi, Kota",
+      
+      "customer_type": "regular",
+      
+      "notes": "Family has booked wedding functions multiple times before."
+      
+    }
+    
+  ]
+  
+}
+
+### Examples of bookings.json
+
+{
+
+  "bookings": [
+  
+    {
+    
+      "booking_id": "B201",
+      
+      "customer_id": "C101",
+      
+      "event_type": "Wedding",
+      
+      "event_address": "Utsav Garden, Kunhadi, Kota",
+
+      "dispatch_date": "2026-12-17",
+      
+      "event_start_date": "2026-12-18",
+      
+      "event_end_date": "2026-12-19",
+      
+      "expected_return_date": "2026-12-20",
+
+      "booking_status": "active",
+
+      "total_amount": 85000,
+      
+      "deposit_amount": 25000,
+
+      "special_requests": "Need extra lighting near food stalls."
+      
+    }
+    
+  ]
+  
+}
+
+### Inventory_units.json
+
 {
 
   "unit_id": "LED-WALL-01",
@@ -206,8 +269,53 @@ The program will use separate JSON files instead of one large file. This will ma
   "current_booking_id": "BOOKING204"
   
 }
-### 5. Operations 
 
+### Payments.json
+
+{
+
+  "payments": [
+  
+    {
+    
+      "payment_id": "P301",
+      
+      "booking_id": "B201",
+
+      "payment_date": "2026-11-10",
+
+      "amount": 25000,
+      
+      "payment_method": "cash",
+
+      "note": "Advance payment during booking."
+      
+    },
+
+    {
+      "payment_id": "P302",
+      
+      "booking_id": "B201",
+
+      "payment_date": "2026-12-18",
+
+      "amount": 40000,
+      
+      "payment_method": "UPI",
+
+      "note": "Partial payment collected at delivery."
+      
+    }
+    
+  ]
+  
+}
+
+If the business grows to around 5,000 bookings per year, the program may become slower because availability checks, customer history searches, and payment calculations would require scanning large JSON files repeatedly. Managing updates across multiple JSON files could also create consistency problems if the program closes unexpectedly while saving data.
+
+At a larger scale, a proper database system with indexed searching and safer transaction handling would likely be more reliable than plain JSON storage.
+
+### 5. Operations 
 
 1. User creates a new booking → system checks item availability for selected dates → system shows booking confirmation and total amount.
 
