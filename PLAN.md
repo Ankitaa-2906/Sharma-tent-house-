@@ -31,6 +31,40 @@ The notes field can be used for things like trusted customers, late payments, or
 
 ---
 
+### Inventory Items
+
+Stores the main inventory categories managed by Sharma Tent House. This includes both bulk-counted items like chairs and plates and uniquely tracked assets like LED walls and sofa sets.
+
+- item_id - string - required  
+  Unique identifier for each inventory item category.
+
+- item_name - string - required  
+  Name of the inventory item.
+
+- category - string - required  
+  Type of inventory item such as seating, lighting, catering, decoration, or electronics.
+
+- total_quantity - integer - required  
+  Total number of units owned by the business.
+
+- available_quantity - integer - optional  
+  Dynamically calculated quantity currently free for booking during a selected date range.
+
+- tracking_type - string - required  
+  Values: bulk or unique_unit.
+
+- price_per_day - float - required  
+  Default rental price charged per day.
+
+- damage_fee_per_unit - float - optional  
+  Standard deduction amount for lost or damaged units.
+
+- current_status - string - optional  
+  Used for overall inventory state such as active, low_stock, or discontinued.
+
+- notes - string - optional  
+  Stores extra operational information about the item.
+
  ### Individually Tracked Inventory Units
 
 Used for high-value or uniquely identifiable assets like LED walls, imported sound systems, and decorative sofa sets.
@@ -47,7 +81,7 @@ Used for high-value or uniquely identifiable assets like LED walls, imported sou
   
 - notes - string - optional
 
-The item_type field is important because some items are counted in quantity like chairs and tables, while some expensive items like LED walls or sofa sets may need separate tracking.
+The tracking_type field determines how inventory is managed in the system. Bulk items like plastic chairs, tables, plates, and glasses are tracked using quantities, while high-value or uniquely identifiable assets like LED walls, imported sound systems, and decorative sofa sets require separate unit-level tracking through the Individually Tracked Inventory Units model.
 
 ---
 
