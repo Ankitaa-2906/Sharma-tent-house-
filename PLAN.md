@@ -31,27 +31,21 @@ The notes field can be used for things like trusted customers, late payments, or
 
 ---
 
-### Inventory Items
+ ### Individually Tracked Inventory Units
 
-This stores all rental items available in the tent house.
+Used for high-value or uniquely identifiable assets like LED walls, imported sound systems, and decorative sofa sets.
 
-- item_id - string - required
+- unit_id - string - required
+
+- parent_item_id - string - required
+
+- serial_label - string - optional
+
+- current_status - string - required
 - 
-- item_name - string - required
-- 
-- category - string - required
-- 
-- total_quantity - integer - required
-- 
-- available_quantity - integer - required
-- 
-- price_per_day - float - required
-- 
-- item_type - string - required
-- 
-- damage_charge - float - optional
-- 
-- status - string - optional
+- current_booking_id - string - optional
+  
+- notes - string - optional
 
 The item_type field is important because some items are counted in quantity like chairs and tables, while some expensive items like LED walls or sofa sets may need separate tracking.
 
@@ -173,6 +167,9 @@ Inventory items are connected to returns and damages because damaged or missing 
 The booking system depends on inventory availability. Before confirming a booking, the program checks whether enough quantity of each item is available for the selected dates.
 
 Bookings connect to payment records, damage charges, and late-return charges. The system derives the current outstanding balance from these related records instead of storing a mutable remaining_amount field.
+
+Bookings connect to inventory in two different ways:
+bulk items reserve quantities across a date range, while uniquely tracked inventory units are assigned specific unit_ids to prevent the same physical asset from being promised to multiple events simultaneously.
 
 ### 4. file structure
 
