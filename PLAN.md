@@ -85,11 +85,21 @@ This stores all booking information for events.
 - 
 - total_amount - float - required
 - 
-- remaining_amount - float - required
-- 
 - booked_items - list - required
+-
+- payment_records - list - required
 
+- damage_charges - list - optional
+
+- late_return_charges - list - optional
+
+- refund_amount - float - optional
+ 
 One booking can contain many different items with different quantities.
+
+The remaining balance is not stored directly. It is calculated dynamically using:
+(total_amount + penalties) - payments - refunds.
+This avoids inconsistencies between stored balances and transaction history.
 
 ---
 
@@ -161,6 +171,8 @@ Returns and damages are also connected to bookings. When items are returned, the
 Inventory items are connected to returns and damages because damaged or missing items affect the available stock of that item.
 
 The booking system depends on inventory availability. Before confirming a booking, the program checks whether enough quantity of each item is available for the selected dates.
+
+Bookings connect to payment records, damage charges, and late-return charges. The system derives the current outstanding balance from these related records instead of storing a mutable remaining_amount field.
 
 ### 4. file structure
 
