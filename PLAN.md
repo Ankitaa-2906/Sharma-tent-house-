@@ -349,32 +349,32 @@ At a larger scale, a proper database system with indexed searching and safer tra
 
 23. User exits the program → system saves all updated data into JSON files → system closes safely.
 
-### 6. Things that can go wrong 
-1. user tries to book more items than available.
- 
-2. two bookings overlap on the same date.
- 
-3. user may enter invalid dates.
-   
-4. customer returns fewer items than booked.
-   
-5. returned items are damaged.
- 
-6. user may enter neagtive quantity.
- 
-7. items are returned late.
- 
-8. inventory quantity becomes negative.
- 
-9. JSON file may get corrupted
- 
-10. Item status is under mainatainance and user tries to book it
- 
-11. user accidently enters duplicate customer phone number
- 
-12. the customer may not exist already
+### 6. Things that can go wrong
+
+1. User tries to book more items than available → system blocks the booking and shows the remaining available quantity for the selected dates.
+
+2. Two bookings overlap on the same date for the same inventory item → system checks date ranges and prevents conflicting bookings from being confirmed.
+
+3. User enters invalid dates or incorrect date format → system rejects the input and asks the user to re-enter the date in YYYY-MM-DD format.
+
+4. Customer returns fewer items than were delivered → system marks the booking as partially returned and keeps the missing items pending.
+
+5. Returned items are damaged → system records the damage details and adds damage charges to the booking settlement.
+
+6. User enters a negative quantity for booking or inventory update → system rejects the value and asks for a valid positive quantity.
+
+7. Items are returned after the expected return date → system calculates late return charges based on the number of delayed days.
+
+8. Inventory quantity becomes negative because of incorrect updates → system cancels the operation and displays an inventory inconsistency warning.
+
+9. JSON file becomes corrupted or unreadable → system shows an error message and attempts to load the latest backup copy if available.
+
+10. Item status is marked as maintenance and user tries to book it → system blocks the booking and shows that the item is temporarily unavailable.
+
+11. User accidentally enters a duplicate customer phone number → system warns the user and displays possible existing customer records before creating a new one.
+
+12. Customer record does not exist when creating a booking → system asks the user to create a new customer record before continuing with the booking.
 
 ### 7. Thing that I dont know yet
-
 
 I am still unsure about the best way to handle last-minute booking changes. In real tent house work, customers often increase or decrease quantities one or two days before the event, so I need to think carefully about how the system should update inventory without affecting other bookings already confirmed.
