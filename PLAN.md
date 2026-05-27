@@ -180,85 +180,68 @@ The program will use separate JSON files instead of one large file. This will ma
 
 ### customers.json
 
-''' json
-[
+```json
+
+{
+
+  "customers": [
 
     {
-        "customer_id": "C101",
-        
-        "customer_name": "Rahul Agarwal",
-        
-        "phone_number": "9876543210",
-        
-        "address": "Talwandi, Kota",
-        
-        "customer_type": "regular",
-        
-        "notes": "Usually pays on time"
-        
-    }
-   
-]
 
-### Example Connected Records
+      "customer_id": "C101",
 
-{
-  "customers": [
-{
-    "customer_id": "C101",
-    
-      "name": "Vikas Agarwal",
-      
-      "phone": "9876543210",
-      
+      "customer_name": "Rahul Agarwal",
+
+      "phone_number": "9876543210",
+
       "address": "Talwandi, Kota",
-      
+
       "customer_type": "regular",
-      
-      "notes": "Family has booked wedding functions multiple times before."
-      
+
+      "notes": "Usually pays on time"
+
     }
-    
+
   ]
-  
+
 }
 
-### Examples of bookings.json
+### bookings.json
 
 {
 
   "bookings": [
-  
+
     {
-    
+
       "booking_id": "B201",
-      
+
       "customer_id": "C101",
-      
+
       "event_type": "Wedding",
-      
+
       "event_address": "Utsav Garden, Kunhadi, Kota",
 
       "dispatch_date": "2026-12-17",
-      
+
       "event_start_date": "2026-12-18",
-      
+
       "event_end_date": "2026-12-19",
-      
+
       "expected_return_date": "2026-12-20",
 
       "booking_status": "active",
 
       "total_amount": 85000,
-      
+
       "deposit_amount": 25000,
 
       "special_requests": "Need extra lighting near food stalls."
-      
+
     }
-    
+
   ]
-  
+
 }
 
 ### Inventory_units.json
