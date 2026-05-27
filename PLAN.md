@@ -197,6 +197,15 @@ The program will use separate JSON files instead of one large file. This will ma
    
 ]
 
+{
+
+  "unit_id": "LED-WALL-01",
+  
+  "parent_item_id": "ITEM101",
+  
+  "current_booking_id": "BOOKING204"
+  
+}
 ### 5. Operations 
 
 
