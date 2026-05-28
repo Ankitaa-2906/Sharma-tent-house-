@@ -143,6 +143,14 @@ This stores the individual items inside a booking.
 - 
 - total_days - integer - required
 
+- standard_price_per_day - float - required
+  
+- quoted_price_per_day - float - required
+  Actual rate charged to customer after negotiations or discounts.
+
+- discount_reason - string - optional
+  Stores why the rate differs from standard price.
+
 This helps in calculating the final booking amount.
 
 ---
@@ -277,6 +285,26 @@ The program will use separate JSON files instead of one large file. This will ma
   ]
 
 }
+
+"booked_items": [
+
+{
+
+"item_id": "ITEM101",
+
+"quantity": 200,
+
+"standard_price_per_day": 12,
+
+"quoted_price_per_day": 10,
+
+"total_days": 2,
+
+"discount_reason": "Regular customer discount"
+
+}
+
+]
 
 ### Inventory_units.json
 
