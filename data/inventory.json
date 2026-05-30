@@ -47,6 +47,30 @@
             "total_quantity": 6,
             "price_per_day": 500.0,
             "tracking_type": "unique_unit"
+        },
+        {
+            "item_id": "ITEM108",
+            "item_name": "Bowl",
+            "category": "500",
+            "total_quantity": 500,
+            "price_per_day": 30.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM109",
+            "item_name": "pedestrial fans",
+            "category": "electronics",
+            "total_quantity": 10,
+            "price_per_day": 500.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM110",
+            "item_name": "tents",
+            "category": "10",
+            "total_quantity": 20,
+            "price_per_day": 700.0,
+            "tracking_type": "bulk"
         }
     ]
 }

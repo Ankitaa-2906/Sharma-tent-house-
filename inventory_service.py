@@ -47,7 +47,7 @@ def add_inventory_item():
         "category": category,
         "total_quantity": total_quantity,
         "price_per_day": price_per_day,
-        "tracking_type": tracking_type
+        "tracking_type": input("Enter Tracking Type (bulk/unique_unit): ").strip()
     }
 
     inventory_items.append(new_item)
