@@ -1,0 +1,52 @@
+{
+    "inventory_items": [
+        {
+            "item_id": "ITEM101",
+            "item_name": "plastic chair",
+            "category": "seating",
+            "total_quantity": 500,
+            "price_per_day": 15.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM102",
+            "item_name": "LED Wall",
+            "category": "Electronics",
+            "total_quantity": 2,
+            "price_per_day": 12000.0,
+            "tracking_type": "unique_unit"
+        },
+        {
+            "item_id": "ITEM103",
+            "item_name": "tables",
+            "category": "dining",
+            "total_quantity": 80,
+            "price_per_day": 250.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM104",
+            "item_name": "plates",
+            "category": "dining",
+            "total_quantity": 1000,
+            "price_per_day": 50.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM106",
+            "item_name": "sofa set",
+            "category": "seating",
+            "total_quantity": 2,
+            "price_per_day": 8000.0,
+            "tracking_type": "unique_unit"
+        },
+        {
+            "item_id": "ITEM107",
+            "item_name": "gas burner",
+            "category": "cooking",
+            "total_quantity": 6,
+            "price_per_day": 500.0,
+            "tracking_type": "unique_unit"
+        }
+    ]
+}
