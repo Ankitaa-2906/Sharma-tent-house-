@@ -51,7 +51,7 @@
         {
             "item_id": "ITEM108",
             "item_name": "Bowl",
-            "category": "500",
+            "category": "dining",
             "total_quantity": 500,
             "price_per_day": 30.0,
             "tracking_type": "bulk"
@@ -67,7 +67,7 @@
         {
             "item_id": "ITEM110",
             "item_name": "tents",
-            "category": "10",
+            "category": "decoration",
             "total_quantity": 20,
             "price_per_day": 700.0,
             "tracking_type": "bulk"
