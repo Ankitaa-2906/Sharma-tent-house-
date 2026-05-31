@@ -2,6 +2,17 @@ from storage import load_data, save_data
 
 INVENTORY_FILE = "data/inventory.json"
 
+def generate_item_id(inventory_items):
+    if not inventory_items:
+        return "ITEM101"
+
+    last_number = max(
+        int(item["item_id"].replace("ITEM", ""))
+        for item in inventory_items
+    )
+
+    return f"ITEM{last_number + 1}"
+
 
 def add_inventory_item():
     """
@@ -14,7 +25,7 @@ def add_inventory_item():
 
     print("\n===== ADD INVENTORY ITEM =====\n")
 
-    item_id = input("Enter Item ID: ").strip()
+    item_id = generate_item_id(inventory_items)
 
     for item in inventory_items:
      if item["item_id"] == item_id:
