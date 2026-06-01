@@ -1,3 +1,48 @@
 {
-    "bookings": []
+    "bookings": [
+        {
+            "booking_id": "BOOK101",
+            "customer_id": "101",
+            "event_name": "wedding",
+            "event_address": "Talwandi",
+            "start_date": "2026-09-29",
+            "end_date": "2026-10-01",
+            "status": "active",
+            "items": []
+        },
+        {
+            "booking_id": "BOOK102",
+            "customer_id": "C102",
+            "event_name": "Engagement",
+            "event_address": "vigyan nagar",
+            "start_date": "2026-12-19",
+            "end_date": "2026-12-20",
+            "status": "active",
+            "items": [
+                {
+                    "item_id": "ITEM101",
+                    "quantity": 150
+                },
+                {
+                    "item_id": "ITEM102",
+                    "quantity": 1
+                }
+            ]
+        },
+        {
+            "booking_id": "BOOK103",
+            "customer_id": "C101",
+            "event_name": "WEDDING",
+            "event_address": "Jhalawar",
+            "start_date": "2026-12-19",
+            "end_date": "2026-12-20",
+            "status": "active",
+            "items": [
+                {
+                    "item_id": "ITEM101",
+                    "quantity": 200
+                }
+            ]
+        }
+    ]
 }

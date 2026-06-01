@@ -1,3 +1,16 @@
 {
-    "customers": []
+    "customers": [
+        {
+            "customer_id": "C101",
+            "customer_name": "Shilpi saxena",
+            "phone_number": "9900887766",
+            "address": "kota"
+        },
+        {
+            "customer_id": "C102",
+            "customer_name": "Neelam Dixit",
+            "phone_number": "8877665544",
+            "address": "kota"
+        }
+    ]
 }
