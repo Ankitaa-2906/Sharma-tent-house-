@@ -26,11 +26,7 @@ def add_inventory_item():
     print("\n===== ADD INVENTORY ITEM =====\n")
 
     item_id = generate_item_id(inventory_items)
-
-    for item in inventory_items:
-     if item["item_id"] == item_id:
-        print("\nItem ID already exists.\n")
-        return
+    print(f"Generated Item ID: {item_id}")
      
     item_name = input("Enter Item Name: ").strip()
     category = input("Enter Category: ").strip()
