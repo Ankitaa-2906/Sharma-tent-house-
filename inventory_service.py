@@ -2,6 +2,17 @@ from storage import load_data, save_data
 
 INVENTORY_FILE = "data/inventory.json"
 
+def generate_item_id(inventory_items):
+    if not inventory_items:
+        return "ITEM101"
+
+    last_number = max(
+        int(item["item_id"].replace("ITEM", ""))
+        for item in inventory_items
+    )
+
+    return f"ITEM{last_number + 1}"
+
 
 def add_inventory_item():
     """
@@ -14,14 +25,15 @@ def add_inventory_item():
 
     print("\n===== ADD INVENTORY ITEM =====\n")
 
-    item_id = input("Enter Item ID: ").strip()
-
-    for item in inventory_items:
-     if item["item_id"] == item_id:
-        print("\nItem ID already exists.\n")
-        return
+    item_id = generate_item_id(inventory_items)
+    print(f"Generated Item ID: {item_id}")
      
     item_name = input("Enter Item Name: ").strip()
+    for item in inventory_items:
+            if item["item_name"].lower() == item_name.lower():
+                print("\nItem name already exists.\n")
+                return
+            
     category = input("Enter Category: ").strip()
 
     try:
@@ -47,7 +59,7 @@ def add_inventory_item():
         "category": category,
         "total_quantity": total_quantity,
         "price_per_day": price_per_day,
-        "tracking_type": tracking_type
+        "tracking_type": input("Enter Tracking Type (bulk/unique_unit): ").strip()
     }
 
     inventory_items.append(new_item)
