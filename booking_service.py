@@ -1,4 +1,5 @@
 from storage import load_data, save_data
+from utils import read_date
 
 BOOKING_FILE = "data/bookings.json"
 CUSTOMER_FILE = "data/customers.json"
@@ -42,28 +43,36 @@ def create_booking():
 
     event_name = input("Enter Event Name: ").strip()
     event_address = input("Enter Event Address: ").strip()
-    start_date = input("Enter Start Date (YYYY-MM-DD): ").strip()
-    end_date = input("Enter End Date (YYYY-MM-DD): ").strip()
+    from utils import read_date
+
+    start_date = read_date("Enter Start Date (YYYY-MM-DD): ")
+    end_date = read_date("Enter End Date (YYYY-MM-DD): ")
 
     items = []
 
     while True:
 
-        item_id = input("Enter Item ID: ").strip()
+        item_id = input(
+            "Enter Item ID (or type CANCEL): "
+        ).strip()
+
+        if item_id.upper() == "CANCEL":
+            print("\nBooking cancelled.\n")
+            return
 
         try:
             quantity = int(input("Enter Quantity: "))
+
+            if quantity <= 0:
+                print("Quantity must be positive.")
+                continue
+
         except ValueError:
             print("Invalid quantity.")
             continue
 
-        if not check_availability(item_id,
-                                   quantity, 
-                                   start_date, 
-                                   end_date
-                                   ):
-            
-            print("Insufficient inventory.")
+        if not check_availability(item_id, quantity):
+            print("Insufficient inventory or invalid Item ID.")
             continue
 
         items.append({
@@ -76,22 +85,23 @@ def create_booking():
         if more != "y":
             break
 
-    new_booking = {
-        "booking_id": booking_id,
-        "customer_id": customer_id,
-        "event_name": event_name,
-        "event_address": event_address,
-        "start_date": start_date,
-        "end_date": end_date,
-        "status": "active",
-        "items": items
-    }
+        new_booking = {
+            "booking_id": booking_id,
+            "customer_id": customer_id,
+            "event_name": event_name,
+            "event_address": event_address,
+            "start_date": start_date,
+            "end_date": end_date,
+            "status": "active",
+            "items": items
+        }
+        new_booking["items"] = items
 
-    bookings.append(new_booking)
+        bookings.append(new_booking)
 
-    booking_data["bookings"] = bookings
+        booking_data["bookings"] = bookings
 
-    save_data(BOOKING_FILE, booking_data)
+        save_data(BOOKING_FILE, booking_data)
 
     print("\nBooking created successfully.\n")
 def view_bookings():
