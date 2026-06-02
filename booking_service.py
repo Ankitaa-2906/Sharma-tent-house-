@@ -69,8 +69,34 @@ def create_booking():
     event_name = input("Enter Event Name: ").strip()
     event_address = input("Enter Event Address: ").strip()
 
-    start_date = read_date("Enter Start Date (YYYY-MM-DD): ")
-    end_date = read_date("Enter End Date (YYYY-MM-DD): ")
+    from datetime import datetime
+
+    while True:
+
+        start_date = read_date(
+            "Enter Start Date (YYYY-MM-DD): "
+        )
+
+        end_date = read_date(
+            "Enter End Date (YYYY-MM-DD): "
+        )
+
+        start_obj = datetime.strptime(
+            start_date,
+            "%Y-%m-%d"
+        )
+
+        end_obj = datetime.strptime(
+            end_date,
+            "%Y-%m-%d"
+        )
+
+        if end_obj >= start_obj:
+            break
+
+        print(
+            "\nError: End Date cannot be earlier than Start Date.\n"
+        )
 
     items = []
 
