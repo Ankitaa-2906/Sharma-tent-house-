@@ -1,5 +1,7 @@
 from storage import load_data, save_data
 from utils import read_date
+from customer_service import view_customers
+from inventory_service import view_inventory
 
 BOOKING_FILE = "data/bookings.json"
 CUSTOMER_FILE = "data/customers.json"
@@ -28,7 +30,10 @@ def create_booking():
 
     print(f"\nGenerated Booking ID: {booking_id}")
 
-    customer_id = input("Enter Customer ID: ").strip()
+    print("\n===== AVAILABLE CUSTOMERS =====")
+    view_customers()
+
+    customer_id = input("\nEnter Customer ID: ").strip()
 
     customer_exists = False
 
@@ -49,6 +54,9 @@ def create_booking():
     end_date = read_date("Enter End Date (YYYY-MM-DD): ")
 
     items = []
+
+    print("\n===== AVAILABLE INVENTORY =====")
+    view_inventory()
 
     while True:
 
