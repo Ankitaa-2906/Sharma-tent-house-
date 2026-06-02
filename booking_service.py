@@ -149,6 +149,9 @@ def create_booking():
         if more != "y":
             break
 
+    if len(items) == 0:
+        print("\nCannot create booking without items.\n")
+        return
     new_booking = {
             "booking_id": booking_id,
             "customer_id": customer_id,
