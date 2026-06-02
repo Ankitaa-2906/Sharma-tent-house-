@@ -24,9 +24,46 @@ def add_customer():
 
     print(f"\nGenerated Customer ID: {customer_id}")
 
-    customer_name = input("Enter Customer Name: ").strip()
-    phone_number = input("Enter Phone Number: ").strip()
-    address = input("Enter Address: ").strip()
+    while True:
+        customer_name = input(
+            "Enter Customer Name: "
+        ).strip()
+
+        if customer_name:
+            break
+
+        print("Customer name cannot be empty.")
+
+
+    while True:
+        phone_number = input(
+            "Enter Phone Number: "
+        ).strip()
+
+        if not phone_number:
+            print("Phone number cannot be empty.")
+            continue
+
+        if not phone_number.isdigit():
+            print("Phone number must contain digits only.")
+            continue
+
+        if len(phone_number) != 10:
+            print("Phone number must be 10 digits.")
+            continue
+
+        break
+
+
+    while True:
+        address = input(
+            "Enter Address: "
+        ).strip()
+
+        if address:
+            break
+
+        print("Address cannot be empty.")
 
     new_customer = {
         "customer_id": customer_id,
