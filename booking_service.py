@@ -48,7 +48,6 @@ def create_booking():
 
     event_name = input("Enter Event Name: ").strip()
     event_address = input("Enter Event Address: ").strip()
-    from utils import read_date
 
     start_date = read_date("Enter Start Date (YYYY-MM-DD): ")
     end_date = read_date("Enter End Date (YYYY-MM-DD): ")
@@ -79,7 +78,12 @@ def create_booking():
             print("Invalid quantity.")
             continue
 
-        if not check_availability(item_id, quantity):
+        if not check_availability(
+        item_id,
+        quantity,
+        start_date,
+        end_date
+    ):
             print("Insufficient inventory or invalid Item ID.")
             continue
 
@@ -93,23 +97,26 @@ def create_booking():
         if more != "y":
             break
 
-        new_booking = {
-            "booking_id": booking_id,
-            "customer_id": customer_id,
-            "event_name": event_name,
-            "event_address": event_address,
-            "start_date": start_date,
-            "end_date": end_date,
-            "status": "active",
-            "items": items
-        }
-        new_booking["items"] = items
+    if not items:
+        print("\nNo items added. Booking not created.\n")
+        return
 
-        bookings.append(new_booking)
+    new_booking = {
+        "booking_id": booking_id,
+        "customer_id": customer_id,
+        "event_name": event_name,
+        "event_address": event_address,
+        "start_date": start_date,
+        "end_date": end_date,
+        "status": "active",
+        "items": items
+    }
 
-        booking_data["bookings"] = bookings
+    bookings.append(new_booking)
 
-        save_data(BOOKING_FILE, booking_data)
+    booking_data["bookings"] = bookings
+
+    save_data(BOOKING_FILE, booking_data)
 
     print("\nBooking created successfully.\n")
 def view_bookings():
@@ -134,10 +141,12 @@ def view_bookings():
         print("Items:")
 
         for item in booking["items"]:
-         print(
-        f"  {item['item_id']} - Qty: {item['quantity']}"
-    )
+            print(
+                f"  {item['item_id']} - Qty: {item['quantity']}"
+            )
+
         print("-" * 40)
+
 from datetime import datetime
 
 

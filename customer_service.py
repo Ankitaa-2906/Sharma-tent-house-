@@ -67,7 +67,8 @@ def view_customers():
 
     customers = data.get("customers", [])
 
-    search = input("Enter customer name or phone number: ").strip().lower()
+    search = input("Enter customer name or phone number: "
+ ).strip().lower()
 
     found = False
 
