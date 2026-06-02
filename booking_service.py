@@ -56,62 +56,58 @@ def create_booking():
 
     print("\n===== AVAILABLE INVENTORY =====")
     view_inventory()
-
     while True:
 
-        item_id = input(
-            "Enter Item ID (or type CANCEL): "
-        ).strip()
+            item_id = input(
+                "Enter Item ID (or type CANCEL): "
+            ).strip()
 
-        if item_id.upper() == "CANCEL":
-            print("\nBooking cancelled.\n")
-            return
+            if item_id.upper() == "CANCEL":
+                print("\nBooking cancelled.\n")
+                return
 
-        try:
-            quantity = int(input("Enter Quantity: "))
+            try:
+                quantity = int(input("Enter Quantity: "))
 
-            if quantity <= 0:
-                print("Quantity must be positive.")
+                if quantity <= 0:
+                    print("Quantity must be positive.")
+                    continue
+
+            except ValueError:
+                print("Invalid quantity.")
                 continue
 
-        except ValueError:
-            print("Invalid quantity.")
-            continue
+            if not check_availability(
+                item_id,
+                quantity,
+                start_date,
+                end_date
+            ):
+                print("Insufficient inventory or invalid Item ID.")
+                continue
 
-        if not check_availability(
-        item_id,
-        quantity,
-        start_date,
-        end_date
-    ):
-            print("Insufficient inventory or invalid Item ID.")
-            continue
+            items.append({
+                "item_id": item_id,
+                "quantity": quantity
+            })
 
-        items.append({
-            "item_id": item_id,
-            "quantity": quantity
-        })
+            more = input(
+                "Add another item? (y/n): "
+            ).strip().lower()
 
-        more = input("Add another item? (y/n): ").strip().lower()
-
-        if more != "y":
-            break
-
-    if not items:
-        print("\nNo items added. Booking not created.\n")
-        return
+            if more != "y":
+                break
 
     new_booking = {
-        "booking_id": booking_id,
-        "customer_id": customer_id,
-        "event_name": event_name,
-        "event_address": event_address,
-        "start_date": start_date,
-        "end_date": end_date,
-        "status": "active",
-        "items": items
-    }
-
+            "booking_id": booking_id,
+            "customer_id": customer_id,
+            "event_name": event_name,
+            "event_address": event_address,
+            "start_date": start_date,
+            "end_date": end_date,
+            "status": "active",
+            "items": items
+        }
     bookings.append(new_booking)
 
     booking_data["bookings"] = bookings
@@ -119,10 +115,13 @@ def create_booking():
     save_data(BOOKING_FILE, booking_data)
 
     print("\nBooking created successfully.\n")
-def view_bookings():
-    data = load_data(BOOKING_FILE)
 
-    bookings = data.get("bookings", [])
+    print("\nBooking created successfully.\n")
+    
+    def view_bookings():
+         data = load_data(BOOKING_FILE)
+
+         bookings = data.get("bookings", [])
 
     if not bookings:
         print("\nNo bookings found.\n")
