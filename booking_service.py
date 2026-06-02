@@ -115,13 +115,11 @@ def create_booking():
     save_data(BOOKING_FILE, booking_data)
 
     print("\nBooking created successfully.\n")
-
-    print("\nBooking created successfully.\n")
     
-    def view_bookings():
-         data = load_data(BOOKING_FILE)
+def view_bookings():
+    data = load_data(BOOKING_FILE)
 
-         bookings = data.get("bookings", [])
+    bookings = data.get("bookings", [])
 
     if not bookings:
         print("\nNo bookings found.\n")
