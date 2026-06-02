@@ -5,6 +5,7 @@ from inventory_service import (
 
 from customer_service import (
     add_customer,
+    find_customer,
     view_customers
 )
 from booking_service import (
@@ -23,7 +24,8 @@ def main_menu():
         print("4. View Customers")
         print("5. Create Booking")
         print("6. View Bookings")
-        print("7. Exit")
+        print("7. Find Customer")
+        print("8. Exit")
 
         choice = input("\nEnter your choice: ").strip()
 
@@ -46,6 +48,9 @@ def main_menu():
             view_bookings()
 
         elif choice == "7":
+            find_customer()
+
+        elif choice == "8":
             print("\nExiting program...")
             break
 

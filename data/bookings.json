@@ -43,6 +43,36 @@
                     "quantity": 200
                 }
             ]
+        },
+        {
+            "booking_id": "BOOK104",
+            "customer_id": "C102",
+            "event_name": "birthday",
+            "event_address": "talwandi",
+            "start_date": "2026-09-29",
+            "end_date": "2026-09-30",
+            "status": "active",
+            "items": [
+                {
+                    "item_id": "ITEM104",
+                    "quantity": 50
+                }
+            ]
+        },
+        {
+            "booking_id": "BOOK105",
+            "customer_id": "C103",
+            "event_name": "engagement",
+            "event_address": "nayapura",
+            "start_date": "2026-06-29",
+            "end_date": "2026-06-30",
+            "status": "active",
+            "items": [
+                {
+                    "item_id": "ITEM108",
+                    "quantity": 200
+                }
+            ]
         }
     ]
 }

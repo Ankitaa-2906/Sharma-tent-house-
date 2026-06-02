@@ -96,3 +96,26 @@ def view_inventory():
         print(f"Tracking Type: {item['tracking_type']}")
 
         print("-" * 40)
+
+def find_inventory_item():
+    data = load_data("data/inventory.json")
+
+    items = data.get("inventory_items", [])
+
+    search = input(
+        "Enter item name: "
+    ).strip().lower()
+
+    for item in items:
+
+        if search in item["item_name"].lower():
+
+            print(
+                f"{item['item_id']} - "
+                f"{item['item_name']}"
+            )
+
+            return item["item_id"]
+
+    print("Item not found.")
+    return None

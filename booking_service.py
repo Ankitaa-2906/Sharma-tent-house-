@@ -1,7 +1,15 @@
 from storage import load_data, save_data
 from utils import read_date
-from customer_service import view_customers
-from inventory_service import view_inventory
+
+from customer_service import (
+    view_customers,
+    find_customer
+)
+
+from inventory_service import (
+    view_inventory,
+    find_inventory_item
+)
 
 BOOKING_FILE = "data/bookings.json"
 CUSTOMER_FILE = "data/customers.json"
@@ -33,7 +41,19 @@ def create_booking():
     print("\n===== AVAILABLE CUSTOMERS =====")
     view_customers()
 
-    customer_id = input("\nEnter Customer ID: ").strip()
+    search_choice = input(
+        "\nSearch customer first? (y/n): "
+    ).strip().lower()
+
+    if search_choice == "y":
+        customer_id = find_customer()
+
+        if customer_id is None:
+         return
+    else:
+        customer_id = input(
+            "\nEnter Customer ID: "
+        ).strip() 
 
     customer_exists = False
 
@@ -57,46 +77,51 @@ def create_booking():
     print("\n===== AVAILABLE INVENTORY =====")
     view_inventory()
     while True:
+        search_item = input(
+            "\nSearch item first? (y/n): "
+        ).strip().lower()
 
+        if search_item == "y":
+            item_id = find_inventory_item()
+            if item_id is None:
+                continue
+        else:
             item_id = input(
                 "Enter Item ID (or type CANCEL): "
             ).strip()
-
             if item_id.upper() == "CANCEL":
                 print("\nBooking cancelled.\n")
                 return
 
-            try:
-                quantity = int(input("Enter Quantity: "))
-
-                if quantity <= 0:
-                    print("Quantity must be positive.")
-                    continue
-
-            except ValueError:
-                print("Invalid quantity.")
+        try:
+            quantity = int(input("Enter Quantity: "))
+            if quantity <= 0:
+                print("Quantity must be positive.")
                 continue
+        except ValueError:
+            print("Invalid quantity.")
+            continue
 
-            if not check_availability(
-                item_id,
-                quantity,
-                start_date,
-                end_date
-            ):
-                print("Insufficient inventory or invalid Item ID.")
-                continue
+        if not check_availability(
+            item_id,
+            quantity,
+            start_date,
+            end_date
+        ):
+            print("Insufficient inventory or invalid Item ID.")
+            continue
 
-            items.append({
-                "item_id": item_id,
-                "quantity": quantity
-            })
+        items.append({
+            "item_id": item_id,
+            "quantity": quantity
+        })
 
-            more = input(
-                "Add another item? (y/n): "
-            ).strip().lower()
+        more = input(
+            "Add another item? (y/n): "
+        ).strip().lower()
 
-            if more != "y":
-                break
+        if more != "y":
+            break
 
     new_booking = {
             "booking_id": booking_id,

@@ -11,6 +11,12 @@
             "customer_name": "Neelam Dixit",
             "phone_number": "8877665544",
             "address": "kota"
+        },
+        {
+            "customer_id": "C103",
+            "customer_name": "Rahul Agarwal",
+            "phone_number": "9988774466",
+            "address": "shrinathpuram"
         }
     ]
 }
