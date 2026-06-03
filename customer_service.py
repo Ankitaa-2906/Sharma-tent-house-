@@ -1,3 +1,5 @@
+from secrets import choice
+
 from storage import load_data, save_data
 
 CUSTOMER_FILE = "data/customers.json"
@@ -122,20 +124,24 @@ def find_customer():
 
     print("\nMatching Customers:")
 
-    for customer in matches:
+    for i, customer in enumerate(matches, start=1):
         print(
+            f"{i}. "
             f"{customer['customer_id']} | "
             f"{customer['customer_name']} | "
             f"{customer['phone_number']}"
         )
+        try:
+            choice = int(
+        input("\nSelect customer number: ")
+        )
 
-    selected_id = input(
-        "\nEnter Customer ID from above list: "
-    ).strip()
+            if 1 <= choice <= len(matches):
+                return matches[choice - 1]["customer_id"]
+        except ValueError:
+            pass
 
-    for customer in matches:
-        if customer["customer_id"] == selected_id:
-            return selected_id
+            print("Invalid selection.")
+            return None
 
-    print("Invalid Customer ID selected.")
-    return None
+       
