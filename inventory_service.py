@@ -118,19 +118,23 @@ def find_inventory_item():
 
     print("\nMatching Items:")
 
-    for item in matches:
+    for index, item in enumerate(matches, start=1):
         print(
+            f"{index}. "
             f"{item['item_id']} | "
             f"{item['item_name']}"
         )
 
-    selected_id = input(
-        "\nEnter Item ID from above list: "
-    ).strip()
+    try:
+        choice = int(
+            input("\nSelect item number: ")
+        )
 
-    for item in matches:
-        if item["item_id"] == selected_id:
-            return selected_id
+        if 1 <= choice <= len(matches):
+            return matches[choice - 1]["item_id"]
 
-    print("Invalid Item ID selected.")
+    except ValueError:
+        pass
+
+    print("Invalid selection.")
     return None
