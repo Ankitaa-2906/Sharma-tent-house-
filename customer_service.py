@@ -124,24 +124,24 @@ def find_customer():
 
     print("\nMatching Customers:")
 
-    for i, customer in enumerate(matches, start=1):
+    for index, customer in enumerate(matches, start=1):
         print(
-            f"{i}. "
+            f"{index}. "
             f"{customer['customer_id']} | "
             f"{customer['customer_name']} | "
             f"{customer['phone_number']}"
         )
-        try:
-            choice = int(
-        input("\nSelect customer number: ")
+
+    try:
+        choice = int(
+            input("\nSelect customer number: ")
         )
 
-            if 1 <= choice <= len(matches):
-                return matches[choice - 1]["customer_id"]
-        except ValueError:
-            pass
+        if 1 <= choice <= len(matches):
+            return matches[choice - 1]["customer_id"]
 
-            print("Invalid selection.")
-            return None
+    except ValueError:
+        pass
 
-       
+    print("Invalid selection.")
+    return None
