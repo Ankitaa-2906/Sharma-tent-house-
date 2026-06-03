@@ -100,27 +100,29 @@ def view_customers():
         print("-" * 40)
 
 def find_customer():
-        data = load_data(CUSTOMER_FILE)
+    search = input(
+        "Enter customer name or phone: "
+    ).strip().lower()
 
-        customers = data.get("customers", [])
+    data = load_data(CUSTOMER_FILE)
 
-        search = input("Enter customer name or phone number: " ).strip().lower()
+    customers = data.get("customers", [])
 
-        found = False
+    for customer in customers:
 
-        for customer in customers:
-
-         if (
+        if (
             search in customer["customer_name"].lower()
             or search in customer["phone_number"]
         ):
 
-            print(f"\nID: {customer['customer_id']}")
-            print(f"Name: {customer['customer_name']}")
-            print(f"Phone: {customer['phone_number']}")
-            print("-" * 30)
+            print("\nCustomer Found:")
+            print(
+                f"{customer['customer_id']} - "
+                f"{customer['customer_name']} - "
+                f"{customer['phone_number']}"
+            )
 
-            found = True
+            return customer["customer_id"]
 
-        if not found:
-         print("\nNo matching customer found.\n")
+    print("\nCustomer not found.")
+    return None
