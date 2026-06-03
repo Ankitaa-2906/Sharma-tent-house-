@@ -105,24 +105,37 @@ def find_customer():
     ).strip().lower()
 
     data = load_data(CUSTOMER_FILE)
-
     customers = data.get("customers", [])
 
-    for customer in customers:
+    matches = []
 
+    for customer in customers:
         if (
             search in customer["customer_name"].lower()
             or search in customer["phone_number"]
         ):
+            matches.append(customer)
 
-            print("\nCustomer Found:")
-            print(
-                f"{customer['customer_id']} - "
-                f"{customer['customer_name']} - "
-                f"{customer['phone_number']}"
-            )
+    if not matches:
+        print("\nCustomer not found.")
+        return None
 
-            return customer["customer_id"]
+    print("\nMatching Customers:")
 
-    print("\nCustomer not found.")
+    for customer in matches:
+        print(
+            f"{customer['customer_id']} | "
+            f"{customer['customer_name']} | "
+            f"{customer['phone_number']}"
+        )
+
+    selected_id = input(
+        "\nEnter Customer ID from above list: "
+    ).strip()
+
+    for customer in matches:
+        if customer["customer_id"] == selected_id:
+            return selected_id
+
+    print("Invalid Customer ID selected.")
     return None
