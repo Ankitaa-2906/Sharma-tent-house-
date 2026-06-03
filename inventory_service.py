@@ -98,24 +98,39 @@ def view_inventory():
         print("-" * 40)
 
 def find_inventory_item():
-    data = load_data("data/inventory.json")
-
-    items = data.get("inventory_items", [])
-
     search = input(
         "Enter item name: "
     ).strip().lower()
 
+    data = load_data(INVENTORY_FILE)
+
+    items = data.get("inventory_items", [])
+
+    matches = []
+
     for item in items:
-
         if search in item["item_name"].lower():
+            matches.append(item)
 
-            print(
-                f"{item['item_id']} - "
-                f"{item['item_name']}"
-            )
+    if not matches:
+        print("\nItem not found.")
+        return None
 
-            return item["item_id"]
+    print("\nMatching Items:")
 
-    print("Item not found.")
+    for item in matches:
+        print(
+            f"{item['item_id']} | "
+            f"{item['item_name']}"
+        )
+
+    selected_id = input(
+        "\nEnter Item ID from above list: "
+    ).strip()
+
+    for item in matches:
+        if item["item_id"] == selected_id:
+            return selected_id
+
+    print("Invalid Item ID selected.")
     return None
