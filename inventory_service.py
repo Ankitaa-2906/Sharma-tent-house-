@@ -96,3 +96,45 @@ def view_inventory():
         print(f"Tracking Type: {item['tracking_type']}")
 
         print("-" * 40)
+
+def find_inventory_item():
+    search = input(
+        "Enter item name: "
+    ).strip().lower()
+
+    data = load_data(INVENTORY_FILE)
+
+    items = data.get("inventory_items", [])
+
+    matches = []
+
+    for item in items:
+        if search in item["item_name"].lower():
+            matches.append(item)
+
+    if not matches:
+        print("\nItem not found.")
+        return None
+
+    print("\nMatching Items:")
+
+    for index, item in enumerate(matches, start=1):
+        print(
+            f"{index}. "
+            f"{item['item_id']} | "
+            f"{item['item_name']}"
+        )
+
+    try:
+        choice = int(
+            input("\nSelect item number: ")
+        )
+
+        if 1 <= choice <= len(matches):
+            return matches[choice - 1]["item_id"]
+
+    except ValueError:
+        pass
+
+    print("Invalid selection.")
+    return None

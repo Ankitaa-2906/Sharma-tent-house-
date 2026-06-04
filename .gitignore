@@ -1,2 +1,7 @@
 __pycache__/
 *.pyc
+
+data/customers.json
+data/bookings.json
+data/payments.json
+data/returns.json
