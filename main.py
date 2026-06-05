@@ -10,7 +10,8 @@ from customer_service import (
 )
 from booking_service import (
     create_booking,
-    view_bookings
+    view_bookings,
+    update_booking,
 )
 
 from payment_service import (
@@ -30,11 +31,12 @@ def main_menu():
         print("4. View Customers")
         print("5. Create Booking")
         print("6. View Bookings")
-        print("7. Find Customer")
-        print("8. Record Payment")
-        print("9. View Payments")
-        print("10. Search Payment by Booking ID")
-        print("11. Exit")
+        print("7. Update Booking")
+        print("8. Find Customer")
+        print("9. Record Payment")
+        print("10. View Payments")
+        print("11. Search Payment by Booking ID")
+        print("12. Exit")
 
         choice = input("\nEnter your choice: ").strip()
 
@@ -57,18 +59,21 @@ def main_menu():
             view_bookings()
 
         elif choice == "7":
-            find_customer()
+            update_booking()
 
         elif choice == "8":
-            record_payment()
+            find_customer()
 
         elif choice == "9":
-            view_payments()
+            record_payment()
 
         elif choice == "10":
-            search_payment_by_booking()
+            view_payments()
 
         elif choice == "11":
+            search_payment_by_booking()
+
+        elif choice == "12":
             print("\nExiting program...")
             break    
 
