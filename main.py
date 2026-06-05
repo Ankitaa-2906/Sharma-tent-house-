@@ -13,6 +13,12 @@ from booking_service import (
     view_bookings
 )
 
+from payment_service import (
+    record_payment,
+    view_payments,
+    search_payment_by_booking
+)
+
 def main_menu():
 
     while True:
@@ -25,7 +31,10 @@ def main_menu():
         print("5. Create Booking")
         print("6. View Bookings")
         print("7. Find Customer")
-        print("8. Exit")
+        print("8. Record Payment")
+        print("9. View Payments")
+        print("10. Search Payment by Booking ID")
+        print("11. Exit")
 
         choice = input("\nEnter your choice: ").strip()
 
@@ -51,8 +60,17 @@ def main_menu():
             find_customer()
 
         elif choice == "8":
+            record_payment()
+
+        elif choice == "9":
+            view_payments()
+
+        elif choice == "10":
+            search_payment_by_booking()
+
+        elif choice == "11":
             print("\nExiting program...")
-            break
+            break    
 
         else:
             print("\nInvalid choice. Try again.\n")
