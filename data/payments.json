@@ -1,3 +1,11 @@
 {
-    "payments": []
+    "payments": [
+        {
+            "payment_id": "P101",
+            "booking_id": "BOOK101",
+            "amount": 5000.0,
+            "payment_method": "Cash",
+            "status": "Paid"
+        }
+    ]
 }
