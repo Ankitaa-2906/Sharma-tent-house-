@@ -48,20 +48,16 @@ def record_payment():
             "\nBooking ID not found."
         )
         return
+    from decimal import Decimal
 
     try:
-        amount = float(
-            input("Enter Amount: ")
-        )
-
-        if amount <= 0:
-            print(
-                "\nAmount must be positive."
-            )
-            return
-
-    except ValueError:
+        amount = Decimal(input("Enter Amount: ").strip())
+    except Exception:
         print("\nInvalid amount.")
+        return
+
+    if amount <= 0:
+        print("\nAmount must be positive.")
         return
 
     while True:
@@ -92,12 +88,11 @@ def record_payment():
     payment_status = "Paid"
 
     new_payment = {
-        "payment_id": payment_id,
-        "booking_id": booking_id,
-        "amount": amount,
-        "payment_method": payment_method,
-        "status": payment_status
-    }
+    "payment_id": payment_id,
+    "booking_id": booking_id,
+    "amount": str(amount),
+    "payment_method": payment_method
+}
 
     payments.append(new_payment)
 
