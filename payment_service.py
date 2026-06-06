@@ -64,10 +64,30 @@ def record_payment():
         print("\nInvalid amount.")
         return
 
-    payment_method = input(
-        "Enter Payment Method "
-        "(Cash/UPI/Card): "
-    ).strip()
+    while True:
+
+        payment_method = input(
+            "Enter Payment Method (Cash/UPI/Card): "
+        ).strip().lower()
+
+        valid_methods = {
+            "cash": "Cash",
+            "upi": "UPI",
+            "card": "Card"
+        }
+
+        if payment_method in valid_methods:
+
+            payment_method = valid_methods[
+                payment_method
+            ]
+
+            break
+
+        print(
+            "Invalid payment method. "
+            "Please enter Cash, UPI or Card."
+        )
 
     payment_status = "Paid"
 
