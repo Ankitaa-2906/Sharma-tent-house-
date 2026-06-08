@@ -1,4 +1,5 @@
 from storage import load_data, save_data
+from datetime import datetime
 
 PAYMENT_FILE = "data/payments.json"
 BOOKING_FILE = "data/bookings.json"
@@ -91,12 +92,14 @@ def record_payment():
     "payment_id": payment_id,
     "booking_id": booking_id,
     "amount": str(amount),
-    "payment_method": payment_method
+    "payment_method": payment_method,
+    "payment_datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 }
 
     payments.append(new_payment)
 
     payment_data["payments"] = payments
+
 
     save_data(
         PAYMENT_FILE,
@@ -207,3 +210,37 @@ def search_payment_by_booking():
             "\nNo payment found "
             "for this Booking ID."
         )
+def payment_menu():
+
+    while True:
+
+        print("\n===== PAYMENT MANAGEMENT =====")
+
+        print("1. Record Payment")
+        print("2. View Payments")
+        print("3. Search Payment by Booking ID")
+        print("4. Back")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            record_payment()
+
+        elif choice == "2":
+
+            view_payments()
+
+        elif choice == "3":
+
+            search_payment_by_booking()
+
+        elif choice == "4":
+
+            return
+
+        else:
+
+            print("\nInvalid choice.")

@@ -138,3 +138,149 @@ def find_inventory_item():
 
     print("Invalid selection.")
     return None
+
+def update_inventory_item():
+
+    data = load_data(INVENTORY_FILE)
+
+    items = data.get(
+        "inventory_items",
+        []
+    )
+
+    item_id = input(
+        "\nEnter Item ID: "
+    ).strip()
+
+    for item in items:
+
+        if item["item_id"] == item_id:
+
+            print(
+                f"\nCurrent Name: "
+                f"{item['item_name']}"
+            )
+
+            print(
+                f"Current Quantity: "
+                f"{item['quantity']}"
+            )
+
+            new_name = input(
+                "Enter New Item Name: "
+            ).strip()
+
+            try:
+
+                new_quantity = int(
+                    input(
+                        "Enter New Quantity: "
+                    )
+                )
+
+            except ValueError:
+
+                print(
+                    "Invalid quantity."
+                )
+
+                return
+
+            item["item_name"] = new_name
+            item["quantity"] = new_quantity
+
+            save_data(
+                INVENTORY_FILE,
+                data
+            )
+
+            print(
+                "\nInventory updated successfully."
+            )
+
+            return
+
+    print(
+        "\nItem ID not found."
+    )
+
+def delete_inventory_item():
+
+    data = load_data(
+        INVENTORY_FILE
+    )
+
+    items = data.get(
+        "inventory_items",
+        []
+    )
+
+    item_id = input(
+        "\nEnter Item ID: "
+    ).strip()
+
+    for item in items:
+
+        if item["item_id"] == item_id:
+
+            items.remove(item)
+
+            save_data(
+                INVENTORY_FILE,
+                data
+            )
+
+            print(
+                "\nItem deleted successfully."
+            )
+
+            return
+
+    print(
+        "\nItem ID not found."
+    )
+
+def inventory_menu():
+
+    while True:
+
+        print("\n===== INVENTORY MANAGEMENT =====")
+
+        print("1. Add Item")
+        print("2. View Inventory")
+        print("3. Find Item")
+        print("4. Update Item")
+        print("5. Delete Item")
+        print("6. Back")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            add_inventory_item()
+
+        elif choice == "2":
+
+            view_inventory()
+
+        elif choice == "3":
+
+            find_inventory_item()
+
+        elif choice == "4":
+
+            update_inventory_item()
+
+        elif choice == "5":
+
+            delete_inventory_item()
+
+        elif choice == "6":
+
+            return
+
+        else:
+
+            print("\nInvalid choice.")

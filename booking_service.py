@@ -531,3 +531,38 @@ def check_availability(
         requested_quantity
         <= available_quantity
     )
+def booking_menu():
+
+    while True:
+
+        print("\n===== BOOKING MANAGEMENT =====")
+
+        print("1. Create Booking")
+        print("2. View Bookings")
+        print("3. Update Booking")
+        print("4. Back")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            create_booking()
+
+        elif choice == "2":
+
+            view_bookings()
+
+        elif choice == "3":
+
+            update_booking()
+
+
+        elif choice == "4":
+
+            return
+
+        else:
+
+            print("\nInvalid choice.")
