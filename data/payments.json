@@ -6,6 +6,12 @@
             "amount": 5000.0,
             "payment_method": "Cash",
             "status": "Paid"
+        },
+        {
+            "payment_id": "P102",
+            "booking_id": "BOOK101",
+            "amount": "5500.50",
+            "payment_method": "Cash"
         }
     ]
 }
