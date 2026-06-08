@@ -79,6 +79,14 @@
             "total_quantity": 500,
             "price_per_day": 10.0,
             "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM112",
+            "item_name": "FOLDING CHAIR",
+            "category": "seating",
+            "quantity": 40,
+            "price_per_day": 30.0,
+            "tracking_type": "bulk"
         }
     ]
 }
