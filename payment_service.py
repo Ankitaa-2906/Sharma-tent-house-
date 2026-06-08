@@ -20,6 +20,7 @@ def generate_payment_id(payments):
 
     return f"P{last_number + 1}"
 
+from decimal import Decimal
 def record_payment():
 
     payment_data = load_data(PAYMENT_FILE)
@@ -48,7 +49,6 @@ def record_payment():
             "\nBooking ID not found."
         )
         return
-    from decimal import Decimal
 
     try:
         amount = Decimal(input("Enter Amount: ").strip())
