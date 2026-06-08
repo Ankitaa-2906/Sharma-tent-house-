@@ -20,6 +20,8 @@ from payment_service import (
     search_payment_by_booking
 )
 
+from return_service import return_menu
+
 def main_menu():
 
     while True:
@@ -36,7 +38,8 @@ def main_menu():
         print("9. Record Payment")
         print("10. View Payments")
         print("11. Search Payment by Booking ID")
-        print("12. Exit")
+        print("12. Return Management")
+        print("13. Exit")
 
         choice = input("\nEnter your choice: ").strip()
 
@@ -74,6 +77,9 @@ def main_menu():
             search_payment_by_booking()
 
         elif choice == "12":
+            return_menu()
+
+        elif choice == "13":
             print("\nExiting program...")
             break    
 
