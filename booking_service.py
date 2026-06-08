@@ -91,12 +91,30 @@ def create_booking():
             "%Y-%m-%d"
         )
 
-        if end_obj >= start_obj:
-            break
+        today = datetime.today().date()
 
-        print(
-            "\nError: End Date cannot be earlier than Start Date.\n"
-        )
+        # Check past booking date
+
+        if start_obj.date() < today:
+
+            print(
+                "\nBooking date cannot be in the past.\n"
+            )
+
+            continue
+
+        # Check end date
+
+        if end_obj < start_obj:
+
+            print(
+                "\nError: End Date cannot be earlier than Start Date.\n"
+            )
+
+            continue
+
+        break
+
 
     items = []
 

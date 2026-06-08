@@ -12,6 +12,12 @@
             "booking_id": "BOOK101",
             "amount": "5500.50",
             "payment_method": "Cash"
+        },
+        {
+            "payment_id": "P103",
+            "booking_id": "BOOK103",
+            "amount": "5000",
+            "payment_method": "Cash"
         }
     ]
 }

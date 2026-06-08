@@ -71,6 +71,14 @@
             "total_quantity": 20,
             "price_per_day": 700.0,
             "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM111",
+            "item_name": "spoons",
+            "category": "dining",
+            "total_quantity": 500,
+            "price_per_day": 10.0,
+            "tracking_type": "bulk"
         }
     ]
 }

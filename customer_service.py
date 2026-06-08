@@ -38,6 +38,7 @@ def add_customer():
 
 
     while True:
+
         phone_number = input(
             "Enter Phone Number: "
         ).strip()
@@ -51,11 +52,19 @@ def add_customer():
             continue
 
         if len(phone_number) != 10:
-            print("Phone number must be 10 digits.")
+            print("Phone number must be exactly 10 digits.")
+            continue
+
+        if any(
+            customer["phone_number"] == phone_number
+            for customer in customers
+        ):
+            print(
+                "\nPhone number already exists.\n"
+            )
             continue
 
         break
-
 
     while True:
         address = input(
