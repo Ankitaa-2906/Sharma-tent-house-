@@ -38,6 +38,7 @@ def add_customer():
 
 
     while True:
+
         phone_number = input(
             "Enter Phone Number: "
         ).strip()
@@ -51,11 +52,19 @@ def add_customer():
             continue
 
         if len(phone_number) != 10:
-            print("Phone number must be 10 digits.")
+            print("Phone number must be exactly 10 digits.")
+            continue
+
+        if any(
+            customer["phone_number"] == phone_number
+            for customer in customers
+        ):
+            print(
+                "\nPhone number already exists.\n"
+            )
             continue
 
         break
-
 
     while True:
         address = input(
@@ -145,3 +154,97 @@ def find_customer():
 
     print("Invalid selection.")
     return None
+
+def update_customer():
+
+    data = load_data(CUSTOMER_FILE)
+
+    customers = data.get(
+        "customers",
+        []
+    )
+
+    customer_id = input(
+        "\nEnter Customer ID: "
+    ).strip()
+
+    for customer in customers:
+
+        if customer["customer_id"] == customer_id:
+
+            print(
+                f"\nCurrent Name: "
+                f"{customer['customer_name']}"
+            )
+
+            print(
+                f"Current Phone: "
+                f"{customer['phone_number']}"
+            )
+
+            print(
+                f"Current Address: "
+                f"{customer['address']}"
+            )
+
+            customer["customer_name"] = input(
+                "New Name: "
+            ).strip()
+
+            customer["address"] = input(
+                "New Address: "
+            ).strip()
+
+            save_data(
+                CUSTOMER_FILE,
+                data
+            )
+
+            print(
+                "\nCustomer updated successfully."
+            )
+
+            return
+
+    print(
+        "\nCustomer ID not found."
+    )
+def customer_menu():
+
+    while True:
+
+        print("\n===== CUSTOMER MANAGEMENT =====")
+
+        print("1. Add Customer")
+        print("2. View Customers")
+        print("3. Find Customer")
+        print("4. Update Customer")
+        print("5. Back")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            add_customer()
+
+        elif choice == "2":
+
+            view_customers()
+
+        elif choice == "3":
+
+            find_customer()
+
+        elif choice == "4":
+
+            update_customer()
+
+        elif choice == "5":
+
+            return
+
+        else:
+
+            print("\nInvalid choice.")

@@ -91,12 +91,30 @@ def create_booking():
             "%Y-%m-%d"
         )
 
-        if end_obj >= start_obj:
-            break
+        today = datetime.today().date()
 
-        print(
-            "\nError: End Date cannot be earlier than Start Date.\n"
-        )
+        # Check past booking date
+
+        if start_obj.date() < today:
+
+            print(
+                "\nBooking date cannot be in the past.\n"
+            )
+
+            continue
+
+        # Check end date
+
+        if end_obj < start_obj:
+
+            print(
+                "\nError: End Date cannot be earlier than Start Date.\n"
+            )
+
+            continue
+
+        break
+
 
     items = []
 
@@ -200,31 +218,276 @@ def view_bookings():
 
 from datetime import datetime
 
+def update_booking():
 
-def check_availability(item_id, requested_quantity, start_date, end_date):
+    data = load_data(BOOKING_FILE)
 
-    inventory_data = load_data("data/inventory.json")
-    booking_data = load_data(BOOKING_FILE)
+    bookings = data.get("bookings", [])
 
-    inventory_items = inventory_data.get("inventory_items", [])
-    bookings = booking_data.get("bookings", [])
+    booking_id = input(
+        "\nEnter Booking ID: "
+    ).strip()
 
-    total_quantity = 0
+    booking_found = None
 
-    for item in inventory_items:
-        if item["item_id"] == item_id:
-            total_quantity = item["total_quantity"]
+    for booking in bookings:
+
+        if booking["booking_id"] == booking_id:
+
+            booking_found = booking
             break
 
-    if total_quantity == 0:
+    if booking_found is None:
+
+        print("\nBooking not found.")
+        return
+
+    while True:
+
+        print("\n===== UPDATE BOOKING =====")
+
+        print("1. Update Event Name")
+        print("2. Update Event Address")
+        print("3. Add Item")
+        print("4. Change Item Quantity")
+        print("5. Remove Item")
+        print("6. Cancel Booking")
+        print("7. Save and Exit")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            booking_found["event_name"] = input(
+                "Enter New Event Name: "
+            ).strip()
+
+        elif choice == "2":
+
+            booking_found["event_address"] = input(
+                "Enter New Address: "
+            ).strip()
+
+        elif choice == "3":
+
+            add_item_to_booking(
+                booking_found
+            )
+
+        elif choice == "4":
+
+            update_item_quantity(
+                booking_found
+            )
+
+        elif choice == "5":
+
+            remove_item_from_booking(
+                booking_found
+            )
+
+        elif choice == "6":
+
+            booking_found["status"] = "cancelled"
+
+            print(
+                "\nBooking cancelled."
+            )
+
+        elif choice == "7":
+
+            save_data(
+                BOOKING_FILE,
+                data
+            )
+
+            print(
+                "\nBooking updated successfully."
+            )
+
+            return
+
+        else:
+
+            print(
+                "\nInvalid choice."
+            )
+def add_item_to_booking(booking):
+
+    view_inventory()
+
+    item_id = input(
+        "\nEnter Item ID: "
+    ).strip()
+
+    try:
+
+        quantity = int(
+            input("Enter Quantity: ")
+        )
+
+        if quantity <= 0:
+
+            print(
+                "Quantity must be positive."
+            )
+            return
+
+    except ValueError:
+
+        print(
+            "Invalid quantity."
+        )
+        return
+
+    booking["items"].append({
+
+        "item_id": item_id,
+        "quantity": quantity
+
+    })
+
+    print(
+        "\nItem added successfully."
+    )
+def update_item_quantity(booking):
+
+    for item in booking["items"]:
+
+        print(
+            f"{item['item_id']} "
+            f"- Qty: {item['quantity']}"
+        )
+
+    item_id = input(
+        "\nEnter Item ID: "
+    ).strip()
+
+    for item in booking["items"]:
+
+        if item["item_id"] == item_id:
+
+            try:
+
+                new_quantity = int(
+                    input(
+                        "Enter New Quantity: "
+                    )
+                )
+
+                if new_quantity <= 0:
+
+                    print(
+                        "Quantity must be positive."
+                    )
+                    return
+
+            except ValueError:
+
+                print(
+                    "Invalid quantity."
+                )
+                return
+
+            item["quantity"] = new_quantity
+
+            print(
+                "\nQuantity updated successfully."
+            )
+
+            return
+
+    print(
+        "\nItem not found."
+    )
+def remove_item_from_booking(booking):
+
+    for item in booking["items"]:
+
+        print(
+            f"{item['item_id']} "
+            f"- Qty: {item['quantity']}"
+        )
+
+    item_id = input(
+        "\nEnter Item ID to remove: "
+    ).strip()
+
+    for item in booking["items"]:
+
+        if item["item_id"] == item_id:
+
+            booking["items"].remove(item)
+
+            print(
+                "\nItem removed successfully."
+            )
+
+            return
+
+    print(
+        "\nItem not found."
+    )
+
+def check_availability(
+    item_id,
+    requested_quantity,
+    start_date,
+    end_date
+):
+
+    inventory_data = load_data(
+        "data/inventory.json"
+    )
+
+    booking_data = load_data(
+        BOOKING_FILE
+    )
+
+    inventory_items = inventory_data.get(
+        "inventory_items",
+        []
+    )
+
+    bookings = booking_data.get(
+        "bookings",
+        []
+    )
+
+    quantity = 0
+
+    for item in inventory_items:
+
+        if item["item_id"] == item_id:
+
+            quantity = item[
+                "quantity"
+            ]
+
+            break
+
+    if quantity == 0:
+
         return False
 
     booked_quantity = 0
 
-    request_start = datetime.strptime(start_date, "%Y-%m-%d")
-    request_end = datetime.strptime(end_date, "%Y-%m-%d")
+    request_start = datetime.strptime(
+        start_date,
+        "%Y-%m-%d"
+    )
+
+    request_end = datetime.strptime(
+        end_date,
+        "%Y-%m-%d"
+    )
 
     for booking in bookings:
+
+        if booking["status"] == "cancelled":
+            continue
 
         booking_start = datetime.strptime(
             booking["start_date"],
@@ -237,17 +500,69 @@ def check_availability(item_id, requested_quantity, start_date, end_date):
         )
 
         overlap = (
+
             request_start <= booking_end
-            and request_end >= booking_start
+
+            and
+
+            request_end >= booking_start
+
         )
 
         if overlap:
 
             for booked_item in booking["items"]:
 
-                if booked_item["item_id"] == item_id:
-                    booked_quantity += booked_item["quantity"]
+                if (
+                    booked_item["item_id"]
+                    == item_id
+                ):
 
-    available_quantity = total_quantity - booked_quantity
+                    booked_quantity += (
+                        booked_item["quantity"]
+                    )
 
-    return requested_quantity <= available_quantity
+    available_quantity = (
+        quantity
+        - booked_quantity
+    )
+
+    return (
+        requested_quantity
+        <= available_quantity
+    )
+def booking_menu():
+
+    while True:
+
+        print("\n===== BOOKING MANAGEMENT =====")
+
+        print("1. Create Booking")
+        print("2. View Bookings")
+        print("3. Update Booking")
+        print("4. Back")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            create_booking()
+
+        elif choice == "2":
+
+            view_bookings()
+
+        elif choice == "3":
+
+            update_booking()
+
+
+        elif choice == "4":
+
+            return
+
+        else:
+
+            print("\nInvalid choice.")
