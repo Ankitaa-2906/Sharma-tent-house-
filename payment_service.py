@@ -107,8 +107,39 @@ def record_payment():
         payment_data
     )
 
+    print("\n===== PAYMENT SUMMARY =====")
+
     print(
-        "\nPayment recorded successfully.\n"
+        f"Payment ID : "
+        f"{payment_id}"
+    )
+
+    print(
+        f"Booking ID : "
+        f"{booking_id}"
+    )
+
+    print(
+        f"Amount     : "
+        f"{amount}"
+    )
+
+    print(
+        f"Method     : "
+        f"{payment_method}"
+    )
+
+    print(
+        f"Status     : "
+        f"{payment_status}"
+    )
+    print(
+        f"Date/Time  : "
+        f"{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}"
+    )
+
+    print(
+        "\nPayment recorded successfully."
     )
 
 def view_payments():

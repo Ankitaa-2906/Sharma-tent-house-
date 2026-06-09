@@ -1,5 +1,3 @@
-from secrets import choice
-
 from storage import load_data, save_data
 
 CUSTOMER_FILE = "data/customers.json"
@@ -188,40 +186,197 @@ def update_customer():
         []
     )
 
-    customer_id = input(
-        "\nEnter Customer ID: "
-    ).strip()
+    customer_id = find_customer()
+
+    if customer_id is None:
+        return
+
+    customer_found = None
 
     for customer in customers:
 
         if customer["customer_id"] == customer_id:
 
-            print(
-                f"\nCurrent Name: "
-                f"{customer['customer_name']}"
-            )
+            customer_found = customer
+            break
 
-            print(
-                f"Current Phone: "
-                f"{customer['phone_number']}"
-            )
+    if customer_found is None:
 
-            print(
-                f"Current Address: "
-                f"{customer['address']}"
-            )
+        print(
+            "\nCustomer not found."
+        )
 
-            customer["customer_name"] = input(
-                "New Name: "
-            ).strip()
+        return
 
-            customer["address"] = input(
-                "New Address: "
-            ).strip()
+    while True:
+
+        print("\n===== UPDATE CUSTOMER =====")
+
+        print(
+            f"\nCustomer ID : "
+            f"{customer_found['customer_id']}"
+        )
+
+        print(
+            f"Name        : "
+            f"{customer_found['customer_name']}"
+        )
+
+        print(
+            f"Phone       : "
+            f"{customer_found['phone_number']}"
+        )
+
+        print(
+            f"Address     : "
+            f"{customer_found['address']}"
+        )
+
+        print("\n1. Update Name")
+        print("2. Update Phone Number")
+        print("3. Update Address")
+        print("4. Save and Exit")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            while True:
+
+                new_name = input(
+                    "Enter New Name: "
+                ).strip()
+
+                if new_name:
+
+                    customer_found[
+                        "customer_name"
+                    ] = new_name.title()
+
+                    print(
+                        "\nName updated successfully."
+                    )
+
+                    break
+
+                print(
+                    "Name cannot be empty."
+                )
+
+        elif choice == "2":
+
+            while True:
+
+                new_phone = input(
+                    "Enter New Phone Number: "
+                ).strip()
+
+                if not new_phone.isdigit():
+
+                    print(
+                        "Phone number must contain digits only."
+                    )
+
+                    continue
+
+                if len(new_phone) != 10:
+
+                    print(
+                        "Phone number must be exactly 10 digits."
+                    )
+
+                    continue
+
+                phone_exists = False
+
+                for customer in customers:
+
+                    if (
+                        customer["phone_number"]
+                        == new_phone
+                        and
+                        customer["customer_id"]
+                        != customer_found["customer_id"]
+                    ):
+
+                        phone_exists = True
+                        break
+
+                if phone_exists:
+
+                    print(
+                        "Phone number already exists."
+                    )
+
+                    continue
+
+                customer_found[
+                    "phone_number"
+                ] = new_phone
+
+                print(
+                    "\nPhone number updated successfully."
+                )
+
+                break
+
+        elif choice == "3":
+
+            while True:
+
+                new_address = input(
+                    "Enter New Address: "
+                ).strip()
+
+                if not new_address:
+
+                    print(
+                        "Address cannot be empty."
+                    )
+
+                    continue
+
+                customer_found[
+                    "address"
+                ] = new_address.title()
+
+                print(
+                    "\nAddress updated successfully."
+                )
+
+                break
+
+        elif choice == "4":
 
             save_data(
                 CUSTOMER_FILE,
                 data
+            )
+
+            print(
+                "\n===== CUSTOMER SUMMARY ====="
+            )
+
+            print(
+                f"Customer ID : "
+                f"{customer_found['customer_id']}"
+            )
+
+            print(
+                f"Name        : "
+                f"{customer_found['customer_name']}"
+            )
+
+            print(
+                f"Phone       : "
+                f"{customer_found['phone_number']}"
+            )
+
+            print(
+                f"Address     : "
+                f"{customer_found['address']}"
             )
 
             print(
@@ -230,9 +385,11 @@ def update_customer():
 
             return
 
-    print(
-        "\nCustomer ID not found."
-    )
+        else:
+
+            print(
+                "\nInvalid choice."
+            )
 def customer_menu():
 
     while True:

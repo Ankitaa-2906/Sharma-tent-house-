@@ -186,7 +186,54 @@ def create_booking():
 
     save_data(BOOKING_FILE, booking_data)
 
-    print("\nBooking created successfully.\n")
+    print("\n===== BOOKING SUMMARY =====")
+
+    print(
+        f"Booking ID   : "
+        f"{booking_id}"
+    )
+
+    print(
+        f"Customer ID  : "
+        f"{customer_id}"
+    )
+
+    print(
+        f"Event Name   : "
+        f"{event_name}"
+    )
+
+    print(
+        f"Address      : "
+        f"{event_address}"
+    )
+
+    print(
+        f"Start Date   : "
+        f"{start_date}"
+    )
+
+    print(
+        f"End Date     : "
+        f"{end_date}"
+    )
+
+    print(
+        f"Status       : Active"
+    )
+
+    print("\nItems:")
+
+    for item in items:
+
+        print(
+            f"{item['item_id']} | "
+            f"Qty: {item['quantity']}"
+        )
+
+    print(
+        "\nBooking created successfully."
+    )
     
 def view_bookings():
     data = load_data(BOOKING_FILE)
