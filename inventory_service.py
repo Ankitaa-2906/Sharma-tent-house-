@@ -37,9 +37,9 @@ def add_inventory_item():
     category = input("Enter Category: ").strip()
 
     try:
-        total_quantity = int(input("Enter Total Quantity: "))
+        quantity = int(input("Enter Total Quantity: "))
 
-        if total_quantity <= 0:
+        if quantity <= 0:
             print("\nQuantity must be greater than zero.\n")
             return
 
@@ -57,7 +57,7 @@ def add_inventory_item():
         "item_id": item_id,
         "item_name": item_name,
         "category": category,
-        "total_quantity": total_quantity,
+        "quantity": quantity,
         "price_per_day": price_per_day,
         "tracking_type": input("Enter Tracking Type (bulk/unique_unit): ").strip()
     }
@@ -68,7 +68,26 @@ def add_inventory_item():
 
     save_data(INVENTORY_FILE, data)
 
-    print("\nInventory item added successfully.\n")
+    print("\n===== INVENTORY SUMMARY =====")
+
+    print(
+        f"Item ID   : "
+        f"{item_id}"
+    )
+
+    print(
+        f"Item Name : "
+        f"{item_name}"
+    )
+
+    print(
+        f"Quantity  : "
+        f"{quantity}"
+    )
+
+    print(
+        "\nItem added successfully."
+    )
 
 
 def view_inventory():
@@ -91,7 +110,7 @@ def view_inventory():
         print(f"Item ID: {item['item_id']}")
         print(f"Name: {item['item_name']}")
         print(f"Category: {item['category']}")
-        print(f"Quantity: {item['total_quantity']}")
+        print(f"Quantity: {item['quantity']}")
         print(f"Price Per Day: ₹{item['price_per_day']}")
         print(f"Tracking Type: {item['tracking_type']}")
 

@@ -80,7 +80,31 @@ def add_customer():
 
     save_data(CUSTOMER_FILE, data)
 
-    print("\nCustomer added successfully.\n")
+    print("\n===== CUSTOMER SUMMARY =====")
+
+    print(
+        f"Customer ID : "
+        f"{customer_id}"
+    )
+
+    print(
+        f"Name        : "
+        f"{customer_name}"
+    )
+
+    print(
+        f"Phone       : "
+        f"{phone_number}"
+    )
+
+    print(
+        f"Address     : "
+        f"{address}"
+    )
+
+    print(
+        "\nCustomer added successfully."
+    )
 
 
 def view_customers():
