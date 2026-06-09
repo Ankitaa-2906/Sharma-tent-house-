@@ -26,9 +26,9 @@
         },
         {
             "item_id": "ITEM104",
-            "item_name": "plates",
+            "item_name": "Plates",
             "category": "dining",
-            "quantity": 1000,
+            "quantity": 900,
             "price_per_day": 50.0,
             "tracking_type": "bulk"
         },
@@ -66,10 +66,26 @@
         },
         {
             "item_id": "ITEM110",
-            "item_name": "tents",
+            "item_name": "Chandelier",
             "category": "decoration",
-            "quantity": 20,
+            "quantity": 15,
             "price_per_day": 700.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM111",
+            "item_name": "spoons",
+            "category": "dining",
+            "quantity": 500,
+            "price_per_day": 10.0,
+            "tracking_type": "bulk"
+        },
+        {
+            "item_id": "ITEM112",
+            "item_name": "FOLDING CHAIR",
+            "category": "seating",
+            "quantity": 40,
+            "price_per_day": 30.0,
             "tracking_type": "bulk"
         }
     ]
