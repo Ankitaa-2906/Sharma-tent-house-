@@ -456,19 +456,19 @@ def check_availability(
         []
     )
 
-    total_quantity = 0
+    quantity = 0
 
     for item in inventory_items:
 
         if item["item_id"] == item_id:
 
-            total_quantity = item[
-                "total_quantity"
+            quantity = item[
+                "quantity"
             ]
 
             break
 
-    if total_quantity == 0:
+    if quantity == 0:
 
         return False
 
@@ -523,7 +523,7 @@ def check_availability(
                     )
 
     available_quantity = (
-        total_quantity
+        quantity
         - booked_quantity
     )
 

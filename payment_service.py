@@ -93,6 +93,7 @@ def record_payment():
     "booking_id": booking_id,
     "amount": str(amount),
     "payment_method": payment_method,
+    "status": payment_status,
     "payment_datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 }
 

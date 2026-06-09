@@ -46,6 +46,6 @@ def main_menu():
 
         else:
 
-            print("\nInvalid choice.")
+            print("\nInvalid choice.")              
 if __name__ == "__main__":
     main_menu()

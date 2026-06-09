@@ -204,7 +204,7 @@ def return_menu():
         print("\n===== RETURN MANAGEMENT =====")
 
         print("1. Record Return")
-        print("0. Back")
+        print("2. Back")
 
         choice = input(
             "\nEnter Choice: "
@@ -214,7 +214,7 @@ def return_menu():
 
             record_return()
 
-        elif choice == "0":
+        elif choice == "2":
 
             return
 
