@@ -212,30 +212,10 @@ def update_customer():
 
         print("\n===== UPDATE CUSTOMER =====")
 
-        print(
-            f"\nCustomer ID : "
-            f"{customer_found['customer_id']}"
-        )
-
-        print(
-            f"Name        : "
-            f"{customer_found['customer_name']}"
-        )
-
-        print(
-            f"Phone       : "
-            f"{customer_found['phone_number']}"
-        )
-
-        print(
-            f"Address     : "
-            f"{customer_found['address']}"
-        )
-
-        print("\n1. Update Name")
+        print("1. Update Name")
         print("2. Update Phone Number")
         print("3. Update Address")
-        print("4. Save and Exit")
+        print("4. Back")
 
         choice = input(
             "\nEnter Choice: "
@@ -249,21 +229,28 @@ def update_customer():
                     "Enter New Name: "
                 ).strip()
 
-                if new_name:
-
-                    customer_found[
-                        "customer_name"
-                    ] = new_name.title()
+                if not new_name:
 
                     print(
-                        "\nName updated successfully."
+                        "Name cannot be empty."
                     )
 
-                    break
+                    continue
+
+                customer_found[
+                    "customer_name"
+                ] = new_name.title()
+
+                save_data(
+                    CUSTOMER_FILE,
+                    data
+                )
 
                 print(
-                    "Name cannot be empty."
+                    "\nName updated successfully."
                 )
+
+                break
 
         elif choice == "2":
 
@@ -316,6 +303,11 @@ def update_customer():
                     "phone_number"
                 ] = new_phone
 
+                save_data(
+                    CUSTOMER_FILE,
+                    data
+                )
+
                 print(
                     "\nPhone number updated successfully."
                 )
@@ -340,7 +332,12 @@ def update_customer():
 
                 customer_found[
                     "address"
-                ] = new_address.title()
+                ] = new_address
+
+                save_data(
+                    CUSTOMER_FILE,
+                    data
+                )
 
                 print(
                     "\nAddress updated successfully."
@@ -350,38 +347,7 @@ def update_customer():
 
         elif choice == "4":
 
-            save_data(
-                CUSTOMER_FILE,
-                data
-            )
-
-            print(
-                "\n===== CUSTOMER SUMMARY ====="
-            )
-
-            print(
-                f"Customer ID : "
-                f"{customer_found['customer_id']}"
-            )
-
-            print(
-                f"Name        : "
-                f"{customer_found['customer_name']}"
-            )
-
-            print(
-                f"Phone       : "
-                f"{customer_found['phone_number']}"
-            )
-
-            print(
-                f"Address     : "
-                f"{customer_found['address']}"
-            )
-
-            print(
-                "\nCustomer updated successfully."
-            )
+            print("\nReturning to Customer Menu...")
 
             return
 
