@@ -1,5 +1,5 @@
 from storage import load_data, save_data
-
+BOOKING_FILE = "data/bookings.json"
 INVENTORY_FILE = "data/inventory.json"
 
 def generate_item_id(inventory_items):
@@ -162,6 +162,31 @@ def find_inventory_item():
 
     print("Invalid selection.")
     return None
+
+def get_booked_quantity(item_id):
+
+    booking_data = load_data(
+        BOOKING_FILE
+    )
+
+    bookings = booking_data.get(
+        "bookings",
+        []
+    )
+
+    total_booked = 0
+
+    for booking in bookings:
+
+        for booked_item in booking["items"]:
+
+            if booked_item["item_id"] == item_id:
+
+                total_booked += booked_item[
+                    "quantity"
+                ]
+
+    return total_booked
 
 def update_inventory_item():
 
@@ -374,44 +399,50 @@ def update_inventory_item():
 
         elif choice == "5":
 
+            booked_quantity = get_booked_quantity(
+                item_found["item_id"]
+            )
+
+            print(
+                f"\nCurrently Allocated To Bookings: "
+                f"{booked_quantity}"
+            )
+
             while True:
 
                 try:
 
-                    new_quantity = int(
-                        input(
-                            "Enter New Quantity: "
-                        )
-                    )
+                    new_quantity = int(input("Enter New Quantity: "))
 
                     if new_quantity < 0:
 
+                        print("Quantity cannot be negative.")
+
+                        continue
+
+                    if new_quantity < booked_quantity:
+
                         print(
-                            "Quantity cannot be negative."
+                            "\nCannot reduce quantity below "
+                            "currently booked quantity."
                         )
 
                         continue
 
-                    item_found[
-                        "total_quantity"
-                    ] = new_quantity
+                    item_found["total_quantity"] = new_quantity
 
                     save_data(
                         INVENTORY_FILE,
                         data
                     )
 
-                    print(
-                        "\nQuantity updated successfully."
-                    )
+                    print("\nQuantity updated successfully.")
 
                     break
 
                 except ValueError:
 
-                    print(
-                        "Invalid quantity."
-                    )
+                    print("Invalid quantity.")
 
         elif choice == "6":
 
@@ -424,9 +455,7 @@ def update_inventory_item():
             )
 def delete_inventory_item():
 
-    data = load_data(
-        INVENTORY_FILE
-    )
+    data = load_data(INVENTORY_FILE)
 
     items = data.get(
         "inventory_items",
@@ -440,6 +469,28 @@ def delete_inventory_item():
     for item in items:
 
         if item["item_id"] == item_id:
+
+            print("\n===== ITEM DETAILS =====")
+
+            print(
+                f"ID: {item['item_id']}"
+            )
+
+            print(
+                f"Name: {item['item_name']}"
+            )
+
+            confirm = input(
+                "\nAre you sure you want to delete this item? (Y/N): "
+            ).strip().lower()
+
+            if confirm != "y":
+
+                print(
+                    "\nDelete cancelled."
+                )
+
+                return
 
             items.remove(item)
 
@@ -457,7 +508,6 @@ def delete_inventory_item():
     print(
         "\nItem ID not found."
     )
-
 def inventory_menu():
 
     while True:
