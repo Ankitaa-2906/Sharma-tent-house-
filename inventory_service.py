@@ -176,58 +176,252 @@ def update_inventory_item():
         "\nEnter Item ID: "
     ).strip()
 
+    item_found = None
+
     for item in items:
 
         if item["item_id"] == item_id:
 
-            print(
-                f"\nCurrent Name: "
-                f"{item['item_name']}"
-            )
+            item_found = item
+            break
 
-            print(
-                f"Current Quantity: "
-                f"{item['quantity']}"
-            )
+    if item_found is None:
 
-            new_name = input(
-                "Enter New Item Name: "
-            ).strip()
+        print(
+            "\nItem ID not found."
+        )
 
-            try:
+        return
 
-                new_quantity = int(
-                    input(
-                        "Enter New Quantity: "
+    while True:
+
+        print("\n===== CURRENT DETAILS =====")
+
+        print(
+            f"Name: "
+            f"{item_found['item_name']}"
+        )
+
+        print(
+            f"Category: "
+            f"{item_found['category']}"
+        )
+
+        print(
+            f"Price Per Day: "
+            f"{item_found['price_per_day']}"
+        )
+
+        print(
+            f"Tracking Type: "
+            f"{item_found['tracking_type']}"
+        )
+
+        print(
+            f"Quantity: "
+            f"{item_found['total_quantity']}"
+        )
+
+        print("\n===== UPDATE INVENTORY =====")
+
+        print("1. Update Name")
+        print("2. Update Category")
+        print("3. Update Price Per Day")
+        print("4. Update Tracking Type")
+        print("5. Update Quantity")
+        print("6. Back")
+
+        choice = input(
+            "\nEnter Choice: "
+        ).strip()
+
+        if choice == "1":
+
+            while True:
+
+                new_name = input(
+                    "Enter New Name: "
+                ).strip()
+
+                if not new_name:
+
+                    print(
+                        "Name cannot be empty."
                     )
-                )
 
-            except ValueError:
+                    continue
+
+                item_found[
+                    "item_name"
+                ] = new_name.title()
+
+                save_data(
+                    INVENTORY_FILE,
+                    data
+                )
 
                 print(
-                    "Invalid quantity."
+                    "\nName updated successfully."
                 )
 
-                return
+                break
 
-            item["item_name"] = new_name
-            item["quantity"] = new_quantity
+        elif choice == "2":
 
-            save_data(
-                INVENTORY_FILE,
-                data
-            )
+            while True:
 
-            print(
-                "\nInventory updated successfully."
-            )
+                new_category = input(
+                    "Enter New Category: "
+                ).strip()
+
+                if not new_category:
+
+                    print(
+                        "Category cannot be empty."
+                    )
+
+                    continue
+
+                item_found[
+                    "category"
+                ] = new_category.title()
+
+                save_data(
+                    INVENTORY_FILE,
+                    data
+                )
+
+                print(
+                    "\nCategory updated successfully."
+                )
+
+                break
+
+        elif choice == "3":
+
+            while True:
+
+                try:
+
+                    new_price = float(
+                        input(
+                            "Enter New Price Per Day: "
+                        )
+                    )
+
+                    if new_price <= 0:
+
+                        print(
+                            "Price must be greater than zero."
+                        )
+
+                        continue
+
+                    item_found[
+                        "price_per_day"
+                    ] = new_price
+
+                    save_data(
+                        INVENTORY_FILE,
+                        data
+                    )
+
+                    print(
+                        "\nPrice updated successfully."
+                    )
+
+                    break
+
+                except ValueError:
+
+                    print(
+                        "Invalid price."
+                    )
+
+        elif choice == "4":
+
+            while True:
+
+                tracking_type = input(
+                    "Enter Tracking Type (bulk/unit): "
+                ).strip().lower()
+
+                if tracking_type not in [
+                    "bulk",
+                    "unit"
+                ]:
+
+                    print(
+                        "Enter bulk or unit only."
+                    )
+
+                    continue
+
+                item_found[
+                    "tracking_type"
+                ] = tracking_type
+
+                save_data(
+                    INVENTORY_FILE,
+                    data
+                )
+
+                print(
+                    "\nTracking Type updated successfully."
+                )
+
+                break
+
+        elif choice == "5":
+
+            while True:
+
+                try:
+
+                    new_quantity = int(
+                        input(
+                            "Enter New Quantity: "
+                        )
+                    )
+
+                    if new_quantity < 0:
+
+                        print(
+                            "Quantity cannot be negative."
+                        )
+
+                        continue
+
+                    item_found[
+                        "total_quantity"
+                    ] = new_quantity
+
+                    save_data(
+                        INVENTORY_FILE,
+                        data
+                    )
+
+                    print(
+                        "\nQuantity updated successfully."
+                    )
+
+                    break
+
+                except ValueError:
+
+                    print(
+                        "Invalid quantity."
+                    )
+
+        elif choice == "6":
 
             return
 
-    print(
-        "\nItem ID not found."
-    )
+        else:
 
+            print(
+                "\nInvalid choice."
+            )
 def delete_inventory_item():
 
     data = load_data(
