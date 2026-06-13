@@ -42,6 +42,9 @@ def add_inventory_item():
         if quantity <= 0:
             print("\nQuantity must be greater than zero.\n")
             return
+        damage_charge = float( input("Enter Damage Charge Per Item: ") )
+
+        replacement_cost = float(input("Enter Replacement Cost Per Item: "))
 
         price_per_day = float(input("Enter Price Per Day: "))
 
@@ -58,6 +61,8 @@ def add_inventory_item():
         "item_name": item_name,
         "category": category,
         "quantity": quantity,
+        "damage_charge": damage_charge,
+        "replacement_cost": replacement_cost,
         "price_per_day": price_per_day,
         "tracking_type": input("Enter Tracking Type (bulk/unique_unit): ").strip()
     }

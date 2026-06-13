@@ -1,7 +1,23 @@
+import datetime
+
+from inventory_service import INVENTORY_FILE
 from storage import load_data, save_data
 
 BOOKING_FILE = "data/bookings.json"
 RETURN_FILE = "data/returns.json"
+def get_inventory_item(item_id):
+
+    inventory_data = load_data(INVENTORY_FILE)
+
+    inventory = inventory_data.get("inventory",[])
+
+    for item in inventory:
+
+        if item["item_id"] == item_id:
+
+            return item
+
+    return None
 
 def record_return():
     booking_data = load_data(
@@ -131,8 +147,16 @@ def record_return():
                 )
 
                 return
+            inventory_item = get_inventory_item(item["item_id"])
 
-        returned_items.append({
+        damage_charge = (damaged_quantity * inventory_item["damage_charge"])
+
+        missing_charge = (missing_quantity* inventory_item["replacement_cost"])
+
+        total_charge = (damage_charge + missing_charge)
+
+        returned_items.append
+        ({
 
             "item_id":
             item["item_id"],
@@ -147,19 +171,35 @@ def record_return():
             missing_quantity,
 
             "damaged_quantity":
-            damaged_quantity
+            damaged_quantity,
+
+            "damage_charge":
+             damage_charge,
+
+            "missing_charge":
+             missing_charge,
+
+            "total_charge":
+             total_charge
 
         })
 
     return_record = {
 
-        "booking_id":
-        booking_id,
+    "booking_id":
+    booking_id,
 
-        "returned_items":
-        returned_items
+    "return_date":
+    datetime.now().strftime(
+        "%Y-%m-%d %H:%M:%S"
+    ),
 
-    }
+    "return_status":
+    "completed",
+
+    "returned_items":
+    returned_items
+}
 
     returns.append(
         return_record

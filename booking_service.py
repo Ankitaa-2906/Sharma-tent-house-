@@ -1,5 +1,6 @@
 from storage import load_data, save_data
 from utils import read_date
+from datetime import datetime
 
 from customer_service import (
     view_customers,
@@ -51,9 +52,13 @@ def create_booking():
         if customer_id is None:
          return
     else:
-        customer_id = input(
-            "\nEnter Customer ID: "
-        ).strip() 
+            print("\nSearch Customer")
+
+    customer_id = find_customer()
+
+    if customer_id is None:
+
+        return 
 
     customer_exists = False
 
@@ -69,7 +74,6 @@ def create_booking():
     event_name = input("Enter Event Name: ").strip()
     event_address = input("Enter Event Address: ").strip()
 
-    from datetime import datetime
 
     while True:
 
@@ -262,8 +266,6 @@ def view_bookings():
             )
 
         print("-" * 40)
-
-from datetime import datetime
 
 def update_booking():
 

@@ -2,44 +2,21 @@
     "payments": [
         {
             "payment_id": "P101",
+            "customer_id": "C101",
             "booking_id": "BOOK101",
-            "amount": "5000.00",
+            "amount": "2000",
             "payment_method": "Cash",
             "status": "Paid",
-            "payment_datetime": "2026-06-09 12:00:00"
+            "payment_datetime": "2026-06-12 11:18:27"
         },
         {
             "payment_id": "P102",
-            "booking_id": "BOOK101",
-            "amount": "5500.50",
+            "customer_id": "C104",
+            "booking_id": "BOOK104",
+            "amount": "5000",
             "payment_method": "Cash",
             "status": "Paid",
-            "payment_datetime": "2026-06-09 12:00:00"
-        },
-        {
-            "payment_id": "P103",
-            "booking_id": "BOOK103",
-            "amount": "5000.00",
-            "payment_method": "Cash",
-            "status": "Paid",
-            "payment_datetime": "2026-06-09 12:01:45"
-
-        },
-        {
-            "payment_id": "P104",
-            "booking_id": "BOOK103",
-            "amount": "3000.00",
-            "payment_method": "Cash",
-            "status": "Paid",
-            "payment_datetime": "2026-06-09 12:03:12"
-        },
-        {
-            "payment_id": "P105",
-            "booking_id": "BOOK102",
-            "amount": "4000.00",
-            "payment_method": "Cash",
-            "status": "Paid",
-            "payment_datetime": "2026-06-09 12:05:30"
+            "payment_datetime": "2026-06-12 11:20:04"
         }
     ]
 }
