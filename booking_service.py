@@ -96,9 +96,6 @@ def create_booking():
         )
 
         today = datetime.today().date()
-
-        # Check past booking date
-
         if start_obj.date() < today:
 
             print(
@@ -107,7 +104,7 @@ def create_booking():
 
             continue
 
-        # Check end date
+       
 
         if end_obj < start_obj:
 

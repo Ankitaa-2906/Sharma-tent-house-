@@ -197,9 +197,13 @@ def update_inventory_item():
         []
     )
 
-    item_id = input(
-        "\nEnter Item ID: "
-    ).strip()
+    print("\nSearch Inventory")
+
+    item_id = find_inventory_item()
+
+    if item_id is None:
+
+        return
 
     item_found = None
 
@@ -462,9 +466,13 @@ def delete_inventory_item():
         []
     )
 
-    item_id = input(
-        "\nEnter Item ID: "
-    ).strip()
+    print("\nSearch Inventory")
+
+    item_id = find_inventory_item()
+
+    if item_id is None:
+
+        return
 
     for item in items:
 
