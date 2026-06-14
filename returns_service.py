@@ -215,27 +215,92 @@ def record_return():
     print(
         "\nReturn recorded successfully."
     )
+    print("\n===== RETURN SUMMARY =====" )
 
-    print(
-        "\n===== RETURN SUMMARY ====="
-    )
+    grand_total = 0
 
     for item in returned_items:
 
+            print(
+                f"\nItem: "
+                f"{item['item_id']}"
+            )
+
+            print(
+                f"Returned: "
+                f"{item['returned_quantity']}"
+            )
+
+            print(
+                f"Missing: "
+                f"{item['missing_quantity']}"
+            )
+
+            print(
+                f"Damaged: "
+                f"{item['damaged_quantity']}"
+            )
+
+            print(
+                f"Damage Charge: ₹"
+                f"{item['damage_charge']}"
+            )
+
+            print(
+                f"Missing Charge: ₹"
+                f"{item['missing_charge']}"
+            )
+
+            print(
+                f"Total Charge: ₹"
+                f"{item['total_charge']}"
+            )
+
+            grand_total += (
+                item["total_charge"]
+            )
+
+    print(
+        "\nGrand Total Charge: ₹"
+            f"{grand_total}")
+    
+def view_returns():
+
+    data = load_data(
+        RETURN_FILE
+    )
+
+    returns = data.get(
+        "returns",
+        []
+    )
+
+    if not returns:
+
         print(
-
-            f"{item['item_id']} | "
-
-            f"Returned: "
-            f"{item['returned_quantity']} | "
-
-            f"Missing: "
-            f"{item['missing_quantity']} | "
-
-            f"Damaged: "
-            f"{item['damaged_quantity']}"
-
+            "\nNo returns found."
         )
+
+        return
+
+    for record in returns:
+
+        print(
+            f"\nBooking ID: "
+            f"{record['booking_id']}"
+        )
+
+        print(
+            f"Date: "
+            f"{record['return_date']}"
+        )
+
+        print(
+            f"Status: "
+            f"{record['return_status']}"
+        )
+
+        print("-" * 40)
 
 def return_menu():
 
@@ -244,7 +309,8 @@ def return_menu():
         print("\n===== RETURN MANAGEMENT =====")
 
         print("1. Record Return")
-        print("2. Back")
+        print("2. View Returns")
+        print("3. Back")
 
         choice = input(
             "\nEnter Choice: "
@@ -256,7 +322,12 @@ def return_menu():
 
         elif choice == "2":
 
-            return
+            view_returns()
+
+        elif choice == "3":
+           
+             return
+
 
         else:
 
