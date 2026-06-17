@@ -27,6 +27,39 @@ def generate_booking_id(bookings):
 
     return f"BOOK{last_number + 1}"
 
+def check_booking_availability(start_date, end_date):
+
+    data = load_data(BOOKING_FILE)
+    bookings = data.get("bookings", [])
+
+    new_start = datetime.strptime(start_date, "%Y-%m-%d")
+    new_end = datetime.strptime(end_date, "%Y-%m-%d")
+
+    for booking in bookings:
+
+        if booking.get("status") == "Cancelled":
+            continue
+
+        booked_start = datetime.strptime(
+            booking["start_date"], "%Y-%m-%d"
+        )
+
+        booked_end = datetime.strptime(
+            booking["end_date"], "%Y-%m-%d"
+        )
+
+        if new_start <= booked_end and new_end >= booked_start:
+
+            print("\nWarning!")
+            print(f"Booking {booking['booking_id']} overlaps with these dates.")
+            print(f"Existing Booking: {booking['start_date']} to {booking['end_date']}")
+
+            choice = input("\nContinue anyway? (Y/N): ").strip().upper()
+
+            return choice == "Y"
+
+    return True
+
 
 def create_booking():
     booking_data = load_data(BOOKING_FILE)
@@ -47,18 +80,14 @@ def create_booking():
     ).strip().lower()
 
     if search_choice == "y":
-        customer_id = find_customer()
-
-        if customer_id is None:
-         return
+       customer_id = find_customer()
     else:
-            print("\nSearch Customer")
+       customer_id = input(
+            "\nEnter Customer ID: "
+        ).strip()
 
-    customer_id = find_customer()
-
-    if customer_id is None:
-
-        return 
+    if customer_id is None or customer_id == "":
+        return
 
     customer_exists = False
 
@@ -84,6 +113,11 @@ def create_booking():
         end_date = read_date(
             "Enter End Date (YYYY-MM-DD): "
         )
+        if not check_booking_availability(start_date, end_date):
+
+            print("\nBooking cancelled.")
+
+            return
 
         start_obj = datetime.strptime(
             start_date,
