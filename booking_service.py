@@ -178,7 +178,7 @@ def create_booking():
             "event_address": event_address,
             "start_date": start_date,
             "end_date": end_date,
-            "status": "active",
+            "status": "confirmed",
             "items": items
         }
     bookings.append(new_booking)
@@ -254,7 +254,7 @@ def view_bookings():
         print(f"Event Address: {booking['event_address']}")
         print(f"Start Date: {booking['start_date']}")
         print(f"End Date: {booking['end_date']}")
-        print(f"Status: {booking['status']}")
+        print(f"Status: {booking.get('status', 'confirmed')}")
         print("Items:")
 
         for item in booking["items"]:
@@ -263,6 +263,96 @@ def view_bookings():
             )
 
         print("-" * 40)
+
+def update_booking_status():
+
+    data = load_data(
+        BOOKING_FILE
+    )
+
+    bookings = data.get(
+        "bookings",
+        []
+    )
+
+    booking_id = input(
+        "\nEnter Booking ID: "
+    ).strip()
+
+    booking_found = None
+
+    for booking in bookings:
+
+        if booking["booking_id"] == booking_id:
+
+            booking_found = booking
+
+            break
+
+    if booking_found is None:
+
+        print(
+            "\nBooking not found."
+        )
+
+        return
+
+    print(
+        f"\nCurrent Status: "
+        f"{booking_found.get('status', 'Confirmed')}"
+    )
+
+    print("\nAvailable Statuses")
+
+    print("1. Pending")
+    print("2. Confirmed")
+    print("3. Completed")
+    print("4. Cancelled")
+    print("5. Returned")
+
+    choice = input(
+        "\nSelect Status: "
+    ).strip()
+
+    status_map = {
+
+        "1": "Pending",
+
+        "2": "Confirmed",
+
+        "3": "Completed",
+
+        "4": "Cancelled",
+
+        "5": "Returned"
+
+    }
+
+    if choice not in status_map:
+
+        print(
+            "\nInvalid status."
+        )
+
+        return
+
+    booking_found["status"] = (
+        status_map[choice]
+    )
+
+    save_data(
+        BOOKING_FILE,
+        data
+    )
+
+    print(
+        "\nBooking status updated successfully."
+    )
+
+    print(
+        f"New Status: "
+        f"{booking_found['status']}"
+    )
 
 def update_booking():
 
@@ -585,8 +675,9 @@ def booking_menu():
 
         print("1. Create Booking")
         print("2. View Bookings")
-        print("3. Update Booking")
-        print("4. Back")
+        print("3. Update Booking Status")
+        print("4. Update Booking")
+        print("5. Back")
 
         choice = input(
             "\nEnter Choice: "
@@ -602,12 +693,16 @@ def booking_menu():
 
         elif choice == "3":
 
-            update_booking()
+            update_booking_status()
 
 
         elif choice == "4":
 
-            return
+            update_booking()
+
+        elif choice == "5":
+
+            break
 
         else:
 

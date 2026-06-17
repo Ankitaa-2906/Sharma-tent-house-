@@ -1,5 +1,22 @@
 {
     "payments": [
-        
+        {
+            "payment_id": "P101",
+            "customer_id": "C103",
+            "booking_id": "BOOK101",
+            "amount": "2000",
+            "payment_method": "Cash",
+            "status": "Paid",
+            "payment_datetime": "2026-06-16 15:50:04"
+        },
+        {
+            "payment_id": "P102",
+            "customer_id": "C103",
+            "booking_id": "BOOK101",
+            "amount": "2000",
+            "payment_method": "UPI",
+            "status": "Paid",
+            "payment_datetime": "2026-06-17 16:14:46"
+        }
     ]
 }

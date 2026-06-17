@@ -248,7 +248,7 @@ def update_inventory_item():
 
         print(
             f"Quantity: "
-            f"{item_found['total_quantity']}"
+            f"{item_found['quantity']}"
         )
 
         print("\n===== UPDATE INVENTORY =====")
@@ -433,7 +433,7 @@ def update_inventory_item():
 
                         continue
 
-                    item_found["total_quantity"] = new_quantity
+                    item_found["quantity"] = new_quantity
 
                     save_data(
                         INVENTORY_FILE,
