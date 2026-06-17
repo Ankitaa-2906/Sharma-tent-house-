@@ -1,4 +1,6 @@
 from storage import load_data
+INVENTORY_FILE = "data/inventory.json"
+BOOKING_FILE = "data/bookings.json"
 
 PAYMENT_FILE = "payments.json"
 
@@ -58,6 +60,60 @@ def revenue_report():
 
     print(f"\nTotal Transactions : {payment_count}")
 
+def inventory_utilization_report():
+
+    inventory_data = load_data(INVENTORY_FILE)
+
+    booking_data = load_data(BOOKING_FILE)
+
+    inventory = inventory_data.get("inventory", [])
+
+    bookings = booking_data.get("bookings", [])
+
+    print("\n===== INVENTORY UTILIZATION REPORT =====")
+
+    if len(inventory) == 0:
+
+        print("\nNo inventory found.")
+
+        return
+
+    for item in inventory:
+
+        item_id = item["item_id"]
+
+        item_name = item["item_name"]
+
+        total_quantity = item.get("quantity", 0)
+
+        booked_quantity = 0
+
+        for booking in bookings:
+
+            if booking.get("status") == "Cancelled":
+
+                continue
+
+            for booked_item in booking["items"]:
+
+                if booked_item["item_id"] == item_id:
+
+                    booked_quantity += booked_item["quantity"]
+
+        available_quantity = total_quantity - booked_quantity
+
+        print("\n--------------------------------")
+
+        print(f"Item ID : {item_id}")
+
+        print(f"Item Name : {item_name}")
+
+        print(f"Total Quantity : {total_quantity}")
+
+        print(f"Booked Quantity : {booked_quantity}")
+
+        print(f"Available Quantity : {available_quantity}")
+
 def reports_menu():
 
     while True:
@@ -66,7 +122,9 @@ def reports_menu():
 
         print("1. Revenue Report")
 
-        print("2. Back")
+        print("2. Inventory Utilization Report")
+
+        print("3. Back")
 
         choice = input("\nEnter choice: ").strip()
 
@@ -75,6 +133,10 @@ def reports_menu():
             revenue_report()
 
         elif choice == "2":
+
+            inventory_utilization_report()
+
+        elif choice == "3":
 
             break
 

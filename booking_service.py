@@ -264,6 +264,40 @@ def view_bookings():
 
         print("-" * 40)
 
+def customer_booking_history():
+
+    data = load_data(BOOKING_FILE)
+
+    bookings = data.get("bookings", [])
+
+    customer_id = input("\nEnter Customer ID: ").strip()
+
+    found = False
+
+    print("\n===== CUSTOMER BOOKING HISTORY =====")
+
+    for booking in bookings:
+
+        if booking["customer_id"] == customer_id:
+
+            found = True
+
+            print("\n-----------------------------")
+
+            print(f"Booking ID : {booking['booking_id']}")
+
+            print(f"Event : {booking['event_name']}")
+
+            print(f"Start Date : {booking['start_date']}")
+
+            print(f"End Date : {booking['end_date']}")
+
+            print(f"Status : {booking.get('status', 'Confirmed')}")
+
+    if not found:
+
+        print("\nNo bookings found for this customer.")
+
 def update_booking_status():
 
     data = load_data(
@@ -675,9 +709,10 @@ def booking_menu():
 
         print("1. Create Booking")
         print("2. View Bookings")
-        print("3. Update Booking Status")
-        print("4. Update Booking")
-        print("5. Back")
+        print("3. Customer Booking History")
+        print("4. Update Booking Status")
+        print("5. Update Booking")
+        print("6. Back")
 
         choice = input(
             "\nEnter Choice: "
@@ -693,14 +728,18 @@ def booking_menu():
 
         elif choice == "3":
 
-            update_booking_status()
-
+            customer_booking_history()
 
         elif choice == "4":
 
-            update_booking()
+            update_booking_status()
+
 
         elif choice == "5":
+
+            update_booking()
+
+        elif choice == "6":
 
             break
 
