@@ -444,11 +444,11 @@ def update_booking_status():
 
     print("\nAvailable Statuses")
 
-    print("1. Pending")
-    print("2. Confirmed")
-    print("3. Completed")
-    print("4. Cancelled")
-    print("5. Returned")
+    print("1. pending")
+    print("2. confirmed")
+    print("3. completed")
+    print("4. cancelled")
+    print("5. returned")
 
     choice = input(
         "\nSelect Status: "
