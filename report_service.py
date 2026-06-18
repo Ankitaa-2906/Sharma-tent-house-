@@ -1,8 +1,10 @@
+from decimal import Decimal
+
 from storage import load_data
-INVENTORY_FILE = "inventory.json"
-BOOKING_FILE = "bookings.json"
-PAYMENT_FILE = "payments.json"
-RETURN_FILE = "returns.json"
+INVENTORY_FILE = "data/inventory.json"
+BOOKING_FILE = "data/bookings.json"
+PAYMENT_FILE = "data/payments.json"
+RETURN_FILE = "data/returns.json"
 
 def revenue_report():
 
@@ -28,7 +30,8 @@ def revenue_report():
 
     for payment in payments:
 
-        amount = float(payment.get("amount", 0))
+
+        amount = Decimal(str(payment.get("amount", 0)))
 
         method = payment.get("payment_method", "").lower()
 
@@ -66,7 +69,7 @@ def inventory_utilization_report():
 
     booking_data = load_data(BOOKING_FILE)
 
-    inventory = inventory_data.get("inventory", [])
+    inventory = inventory_data.get("inventory_items", [])
 
     bookings = booking_data.get("bookings", [])
 
