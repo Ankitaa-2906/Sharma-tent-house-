@@ -1,8 +1,8 @@
 from storage import load_data
-INVENTORY_FILE = "data/inventory.json"
-BOOKING_FILE = "data/bookings.json"
-
+INVENTORY_FILE = "inventory.json"
+BOOKING_FILE = "bookings.json"
 PAYMENT_FILE = "payments.json"
+RETURN_FILE = "returns.json"
 
 def revenue_report():
 

@@ -8,6 +8,7 @@ from customer_service import (
 )
 
 from inventory_service import (
+    INVENTORY_FILE,
     view_inventory,
     find_inventory_item
 )
@@ -26,6 +27,19 @@ def generate_booking_id(bookings):
     )
 
     return f"BOOK{last_number + 1}"
+
+def get_item_name(item_id):
+    inventory_data = load_data(INVENTORY_FILE)
+
+    inventory = inventory_data.get("inventory", [])
+
+    for item in inventory:
+
+        if item["item_id"] == item_id:
+
+            return item["item_name"]
+
+    return "Unknown Item"
 
 def check_booking_availability(start_date, end_date):
 
@@ -220,6 +234,7 @@ def create_booking():
     booking_data["bookings"] = bookings
 
     save_data(BOOKING_FILE, booking_data)
+    generate_booking_receipt(new_booking)
 
     print("\n===== BOOKING SUMMARY =====")
 
@@ -269,6 +284,63 @@ def create_booking():
     print(
         "\nBooking created successfully."
     )
+
+def generate_booking_receipt(booking):
+
+    customer_data = load_data(CUSTOMER_FILE)
+    inventory_data = load_data(INVENTORY_FILE)
+
+    customers = customer_data.get("customers", [])
+    inventory = inventory_data.get("inventory", [])
+
+    customer_name = "Unknown"
+    customer_phone = "Unknown"
+
+    for customer in customers:
+        if customer["customer_id"] == booking["customer_id"]:
+            customer_name = customer["customer_name"]
+            customer_phone = customer["phone_number"]
+            break
+
+    filename = f"{booking['booking_id']}_receipt.txt"
+
+    with open(filename, "w") as file:
+
+        file.write("=" * 45 + "\n")
+        file.write("           SHARMA TENT HOUSE\n")
+        file.write("=" * 45 + "\n\n")
+
+        file.write(f"Booking ID : {booking['booking_id']}\n")
+        file.write(f"Customer   : {customer_name}\n")
+        file.write(f"Phone      : {customer_phone}\n\n")
+
+        file.write(f"Event      : {booking['event_name']}\n")
+        file.write(f"Venue      : {booking['event_address']}\n")
+        file.write(f"Start Date : {booking['start_date']}\n")
+        file.write(f"End Date   : {booking['end_date']}\n")
+        file.write(f"Status     : {booking['status']}\n\n")
+
+        file.write("Items\n")
+        file.write("-" * 45 + "\n")
+
+        for booked_item in booking["items"]:
+
+            item_name = booked_item["item_id"]
+
+            for item in inventory:
+                if item["item_id"] == booked_item["item_id"]:
+                    item_name = item["item_name"]
+                    break
+
+            file.write(
+                f"{item_name:<25} Qty : {booked_item['quantity']}\n"
+            )
+
+        file.write("\n")
+        file.write("=" * 45 + "\n")
+        file.write("Thank you!!!\n")
+
+    print(f"\nReceipt saved as {filename}")
     
 def view_bookings():
     data = load_data(BOOKING_FILE)
