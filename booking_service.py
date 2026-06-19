@@ -70,9 +70,12 @@ def check_booking_availability(start_date, end_date):
 
             choice = input("\nContinue anyway? (Y/N): ").strip().upper()
 
-            return choice == "Y"
+            if choice == "Y":
+                return True, True      
 
-    return True
+            return False, False        
+
+    return True, False                
 
 
 def create_booking():
@@ -127,10 +130,11 @@ def create_booking():
         end_date = read_date(
             "Enter End Date (YYYY-MM-DD): "
         )
-        if not check_booking_availability(start_date, end_date):
+        availability, overridden = check_booking_availability(start_date, end_date)
+
+        if not availability:
 
             print("\nBooking cancelled.")
-
             return
 
         start_obj = datetime.strptime(
@@ -227,7 +231,8 @@ def create_booking():
             "start_date": start_date,
             "end_date": end_date,
             "status": "confirmed",
-            "items": items
+            "items": items,
+            "overridden": overridden
         }
     bookings.append(new_booking)
 
