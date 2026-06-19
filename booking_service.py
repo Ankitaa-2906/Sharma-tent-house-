@@ -8,6 +8,7 @@ from customer_service import (
 )
 
 from inventory_service import (
+    INVENTORY_FILE,
     view_inventory,
     find_inventory_item
 )
@@ -26,6 +27,55 @@ def generate_booking_id(bookings):
     )
 
     return f"BOOK{last_number + 1}"
+
+def get_item_name(item_id):
+    inventory_data = load_data(INVENTORY_FILE)
+
+    inventory = inventory_data.get("inventory", [])
+
+    for item in inventory:
+
+        if item["item_id"] == item_id:
+
+            return item["item_name"]
+
+    return "Unknown Item"
+
+def check_booking_availability(start_date, end_date):
+
+    data = load_data(BOOKING_FILE)
+    bookings = data.get("bookings", [])
+
+    new_start = datetime.strptime(start_date, "%Y-%m-%d")
+    new_end = datetime.strptime(end_date, "%Y-%m-%d")
+
+    for booking in bookings:
+
+        if booking.get("status") == "Cancelled":
+            continue
+
+        booked_start = datetime.strptime(
+            booking["start_date"], "%Y-%m-%d"
+        )
+
+        booked_end = datetime.strptime(
+            booking["end_date"], "%Y-%m-%d"
+        )
+
+        if new_start <= booked_end and new_end >= booked_start:
+
+            print("\nWarning!")
+            print(f"Booking {booking['booking_id']} overlaps with these dates.")
+            print(f"Existing Booking: {booking['start_date']} to {booking['end_date']}")
+
+            choice = input("\nContinue anyway? (Y/N): ").strip().upper()
+
+            if choice == "Y":
+                return True, True      
+
+            return False, False        
+
+    return True, False                
 
 
 def create_booking():
@@ -47,18 +97,14 @@ def create_booking():
     ).strip().lower()
 
     if search_choice == "y":
-        customer_id = find_customer()
-
-        if customer_id is None:
-         return
+       customer_id = find_customer()
     else:
-            print("\nSearch Customer")
+       customer_id = input(
+            "\nEnter Customer ID: "
+        ).strip()
 
-    customer_id = find_customer()
-
-    if customer_id is None:
-
-        return 
+    if customer_id is None or customer_id == "":
+        return
 
     customer_exists = False
 
@@ -84,6 +130,12 @@ def create_booking():
         end_date = read_date(
             "Enter End Date (YYYY-MM-DD): "
         )
+        availability, overridden = check_booking_availability(start_date, end_date)
+
+        if not availability:
+
+            print("\nBooking cancelled.")
+            return
 
         start_obj = datetime.strptime(
             start_date,
@@ -178,14 +230,16 @@ def create_booking():
             "event_address": event_address,
             "start_date": start_date,
             "end_date": end_date,
-            "status": "active",
-            "items": items
+            "status": "confirmed",
+            "items": items,
+            "overridden": overridden
         }
     bookings.append(new_booking)
 
     booking_data["bookings"] = bookings
 
     save_data(BOOKING_FILE, booking_data)
+    generate_booking_receipt(new_booking)
 
     print("\n===== BOOKING SUMMARY =====")
 
@@ -235,6 +289,63 @@ def create_booking():
     print(
         "\nBooking created successfully."
     )
+
+def generate_booking_receipt(booking):
+
+    customer_data = load_data(CUSTOMER_FILE)
+    inventory_data = load_data(INVENTORY_FILE)
+
+    customers = customer_data.get("customers", [])
+    inventory = inventory_data.get("inventory", [])
+
+    customer_name = "Unknown"
+    customer_phone = "Unknown"
+
+    for customer in customers:
+        if customer["customer_id"] == booking["customer_id"]:
+            customer_name = customer["customer_name"]
+            customer_phone = customer["phone_number"]
+            break
+
+    filename = f"{booking['booking_id']}_receipt.txt"
+
+    with open(filename, "w") as file:
+
+        file.write("=" * 45 + "\n")
+        file.write("           SHARMA TENT HOUSE\n")
+        file.write("=" * 45 + "\n\n")
+
+        file.write(f"Booking ID : {booking['booking_id']}\n")
+        file.write(f"Customer   : {customer_name}\n")
+        file.write(f"Phone      : {customer_phone}\n\n")
+
+        file.write(f"Event      : {booking['event_name']}\n")
+        file.write(f"Venue      : {booking['event_address']}\n")
+        file.write(f"Start Date : {booking['start_date']}\n")
+        file.write(f"End Date   : {booking['end_date']}\n")
+        file.write(f"Status     : {booking['status']}\n\n")
+
+        file.write("Items\n")
+        file.write("-" * 45 + "\n")
+
+        for booked_item in booking["items"]:
+
+            item_name = booked_item["item_id"]
+
+            for item in inventory:
+                if item["item_id"] == booked_item["item_id"]:
+                    item_name = item["item_name"]
+                    break
+
+            file.write(
+                f"{item_name:<25} Qty : {booked_item['quantity']}\n"
+            )
+
+        file.write("\n")
+        file.write("=" * 45 + "\n")
+        file.write("Thank you!!!\n")
+
+    print(f"\nReceipt saved as {filename}")
     
 def view_bookings():
     data = load_data(BOOKING_FILE)
@@ -254,7 +365,7 @@ def view_bookings():
         print(f"Event Address: {booking['event_address']}")
         print(f"Start Date: {booking['start_date']}")
         print(f"End Date: {booking['end_date']}")
-        print(f"Status: {booking['status']}")
+        print(f"Status: {booking.get('status', 'confirmed')}")
         print("Items:")
 
         for item in booking["items"]:
@@ -263,6 +374,130 @@ def view_bookings():
             )
 
         print("-" * 40)
+
+def customer_booking_history():
+
+    data = load_data(BOOKING_FILE)
+
+    bookings = data.get("bookings", [])
+
+    customer_id = input("\nEnter Customer ID: ").strip()
+
+    found = False
+
+    print("\n===== CUSTOMER BOOKING HISTORY =====")
+
+    for booking in bookings:
+
+        if booking["customer_id"] == customer_id:
+
+            found = True
+
+            print("\n-----------------------------")
+
+            print(f"Booking ID : {booking['booking_id']}")
+
+            print(f"Event : {booking['event_name']}")
+
+            print(f"Start Date : {booking['start_date']}")
+
+            print(f"End Date : {booking['end_date']}")
+
+            print(f"Status : {booking.get('status', 'Confirmed')}")
+
+    if not found:
+
+        print("\nNo bookings found for this customer.")
+
+def update_booking_status():
+
+    data = load_data(
+        BOOKING_FILE
+    )
+
+    bookings = data.get(
+        "bookings",
+        []
+    )
+
+    booking_id = input(
+        "\nEnter Booking ID: "
+    ).strip()
+
+    booking_found = None
+
+    for booking in bookings:
+
+        if booking["booking_id"] == booking_id:
+
+            booking_found = booking
+
+            break
+
+    if booking_found is None:
+
+        print(
+            "\nBooking not found."
+        )
+
+        return
+
+    print(
+        f"\nCurrent Status: "
+        f"{booking_found.get('status', 'Confirmed')}"
+    )
+
+    print("\nAvailable Statuses")
+
+    print("1. pending")
+    print("2. confirmed")
+    print("3. completed")
+    print("4. cancelled")
+    print("5. returned")
+
+    choice = input(
+        "\nSelect Status: "
+    ).strip()
+
+    status_map = {
+
+        "1": "Pending",
+
+        "2": "Confirmed",
+
+        "3": "Completed",
+
+        "4": "Cancelled",
+
+        "5": "Returned"
+
+    }
+
+    if choice not in status_map:
+
+        print(
+            "\nInvalid status."
+        )
+
+        return
+
+    booking_found["status"] = (
+        status_map[choice]
+    )
+
+    save_data(
+        BOOKING_FILE,
+        data
+    )
+
+    print(
+        "\nBooking status updated successfully."
+    )
+
+    print(
+        f"New Status: "
+        f"{booking_found['status']}"
+    )
 
 def update_booking():
 
@@ -585,8 +820,10 @@ def booking_menu():
 
         print("1. Create Booking")
         print("2. View Bookings")
-        print("3. Update Booking")
-        print("4. Back")
+        print("3. Customer Booking History")
+        print("4. Update Booking Status")
+        print("5. Update Booking")
+        print("6. Back")
 
         choice = input(
             "\nEnter Choice: "
@@ -602,12 +839,20 @@ def booking_menu():
 
         elif choice == "3":
 
-            update_booking()
-
+            customer_booking_history()
 
         elif choice == "4":
 
-            return
+            update_booking_status()
+
+
+        elif choice == "5":
+
+            update_booking()
+
+        elif choice == "6":
+
+            break
 
         else:
 

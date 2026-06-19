@@ -306,6 +306,20 @@ def record_return():
         RETURN_FILE,
         return_data
     )
+    booking_data = load_data(BOOKING_FILE)
+
+    for booking in booking_data["bookings"]:
+
+        if booking["booking_id"] == booking_id:
+
+            booking["status"] = "Returned"
+
+            break
+
+    save_data(
+        BOOKING_FILE,
+        booking_data
+    )
 
     print(
         "\nReturn recorded successfully."

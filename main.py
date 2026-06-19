@@ -3,6 +3,7 @@ from inventory_service import inventory_menu
 from booking_service import booking_menu
 from payment_service import payment_menu
 from returns_service import return_menu
+from report_service import reports_menu 
 
 def main_menu():
 
@@ -15,7 +16,8 @@ def main_menu():
         print("3. Booking Management")
         print("4. Payment Management")
         print("5. Return Management")
-        print("6. Exit")
+        print("6. Reports")
+        print("7. Exit")
 
         choice = input("\nEnter Choice: ").strip()
 
@@ -40,6 +42,10 @@ def main_menu():
             return_menu()
 
         elif choice == "6":
+
+            reports_menu()
+
+        elif choice == "7":
 
             print("\nThank You.")
             break

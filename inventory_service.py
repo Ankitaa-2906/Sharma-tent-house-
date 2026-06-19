@@ -248,7 +248,7 @@ def update_inventory_item():
 
         print(
             f"Quantity: "
-            f"{item_found['total_quantity']}"
+            f"{item_found['quantity']}"
         )
 
         print("\n===== UPDATE INVENTORY =====")
@@ -372,16 +372,16 @@ def update_inventory_item():
             while True:
 
                 tracking_type = input(
-                    "Enter Tracking Type (bulk/unit): "
+                    "Enter Tracking Type (bulk/unique): "
                 ).strip().lower()
 
                 if tracking_type not in [
                     "bulk",
-                    "unit"
+                    "unique"
                 ]:
 
                     print(
-                        "Enter bulk or unit only."
+                        "Enter bulk or unique only."
                     )
 
                     continue
@@ -433,7 +433,7 @@ def update_inventory_item():
 
                         continue
 
-                    item_found["total_quantity"] = new_quantity
+                    item_found["quantity"] = new_quantity
 
                     save_data(
                         INVENTORY_FILE,

@@ -1,5 +1,13 @@
 {
     "payments": [
-        
+        {
+            "payment_id": "P101",
+            "customer_id": "C101",
+            "booking_id": "BOOK101",
+            "amount": "3000",
+            "payment_method": "Cash",
+            "status": "Paid",
+            "payment_datetime": "2026-06-18 13:11:17"
+        }
     ]
 }
